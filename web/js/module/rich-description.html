@@ -1,0 +1,19 @@
+<script type="text/javascript" src="js/module/rich-description.js"></script>
+
+<script type="text/html" id="template-eventDescriptionView">
+  <div class="moduleAction moduleTitleBar" id="richDescriptionActionBar">
+    <a href="" id="editDescriptionAction" >Edit</a>
+  </div>
+  <div id="viewDescription"><%= htmlDescription %><div>
+</script>
+
+<script type="text/html" id="template-eventDescriptionEditView">
+  <div class="moduleAction moduleTitleBar">
+    <a href="" id="saveEditEventDescription">Save</a> | 
+    <a href="" id="cancelEditEventDescription">Cancel</a>
+  </div>
+  Event Title*: <input type="text" id="editEventTitleField" value="<%= title %>"/><br/>
+  Click the description below to edit.
+  <div id="editDescription" contenteditable="true"><%= htmlDescription %></div>
+</script>
+

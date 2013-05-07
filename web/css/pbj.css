@@ -1,0 +1,349 @@
+
+body {
+  font-family: "Trebuchet MS";
+  font-size: .8em;
+  padding: 0;
+  margin: 0;
+  background-color: #EEF;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+}
+
+/** Sticky Footer Begin 
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+.wrapper {
+  min-height: 100%;
+  margin: 0 auto -200px;
+}
+
+.footer, .push {
+  height: 200px;
+  clear: both;
+}
+/** Sticky Footer End **/
+
+#messageRegion {
+  position: fixed;
+  width: 400px;
+  overflow: auto;
+  background-color: #FFF;
+  border: 1px solid #889;
+  padding: 2px;
+}
+
+.messagesMinimized {
+  bottom: 0;
+  right: 0;
+  height: 1.8em;
+}
+
+.messagesCentered {
+  top: 20px;
+  height: 4em;
+  left: 50%;
+  margin-left: -200px;
+}
+
+.messagesAction {
+  float: right;
+  cursor: hand;
+  padding: 0px 5px;
+  border: 1px solid #EEF;
+}
+
+#notificationList {
+  list-style: none;
+  margin: 0;
+  padding: 3px;
+}
+
+.notificationSubList {
+  list-style: none;
+}
+
+#currentUserHeader {
+  float: right;
+}
+
+#headerDiv {
+  border-bottom: 1px solid #000;
+  padding: 5px;
+  margin: 0;
+  color: #FFF;
+  background-color: #AAB;
+}
+
+#innerHeaderDiv {
+  margin-left: auto;
+  margin-right: auto;
+  width: 950px;
+}
+
+#appMain {
+  margin-left: auto;
+  margin-right: auto;
+  /*width: 950px;*/
+  padding: 0 10px;
+  border-top: 0;
+  overflow: auto;
+  background-color: #FFF;
+}
+
+#footer {
+}
+
+.module {
+  padding: 3px;
+  border: 1px solid #EEE;
+  margin: 3px 0px;
+}
+
+.moduleTitleBar {
+  font-weight: bold;
+  background-color: #EEF;
+  padding: 5px;
+  margin: 0;
+}
+
+.clearer {
+  clear: both;
+}
+
+.floatRight {
+  text-align: right;
+  float: right;
+}
+
+.hide {
+  display: none;
+}
+
+#sidebar {
+  float: right;
+  width: 24%;
+}
+
+.moduleListFooter {
+  clear: both;
+  width: 100%;
+}
+
+#moduleListContainer {
+  overflow-y:auto;
+  border: 1px solid #EEF;
+}
+
+#moduleListContainer table {
+  border-spacing: 0;
+}
+
+#moduleListContainer td {
+  overflow: none;
+  padding: 0;
+}
+
+#moduleListRow {
+  height: 1.2em;
+}
+
+.module-min {
+  height:1.2em;
+  width:120px;
+  border: 1px solid #EEF;
+  cursor: hand;
+  background-color: #FFF;
+  color: #556;
+  padding: 2px;
+  font-size: .9em;
+}
+
+.selected-module {
+  border: 2px solid orange;
+}
+
+#eventTitleText {
+  display: inline;
+}
+
+#eventTitleActions {
+  float: right;
+}
+
+#eventMain {
+  width: 74%;
+  border: 0;
+  overflow: auto;
+  float: left;
+}
+
+#eventTitleDiv {
+  background-color: #EEF;
+  padding: 1px;  
+}
+
+#eventTitleDiv h2 {
+  margin: 0;
+}
+
+.responseSelected {
+  border: 1px solid orange;
+  font-weight: bold;
+  padding: 2px;
+}
+
+#richDescriptionActionBar {
+  display: none;
+}
+
+#editDescription {
+  border: 1px dashed orange;
+}
+
+#guestList {
+  border: 1px solid #EEE;
+}
+
+#guestList ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  overflow: auto;
+  height: 120px;
+}
+
+#guestList li {
+  border-bottom: 1px solid #90bade;
+	margin: 0;
+}
+.guestStatus- {
+  color: #999;
+  font-weight: normal;
+  font-size: 1.2em;
+}
+
+.guestStatus-in {
+  color: green;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.guestStatus-invited {
+  color: navy;
+  font-style: italic;
+  font-size: 1.2em;
+}
+
+.guestStatus-out {
+  color: #555;
+  font-weight: normal;
+  font-size: 1em;
+  text-decoration: line-through;
+}
+
+#eventMessagesContainer {
+  border: 1px solid #EEE;
+  clear: both;
+}
+
+#eventMessages {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+#eventMessages li{
+  border-bottom: 1px solid #EEE;
+  width: 100%;
+}
+
+#newMessageField {
+  border: 1px solid #CCC;
+  width: 273px;
+  padding: 3px 2px;
+}
+
+#postNewMessage {
+  margin-left: 5px;
+}
+
+.eventmessage-user {
+  font-weight: bold;
+  color: #AACCDD;
+}
+
+.eventmessage-timestamp {
+  float: right;
+  font-size: .7em;
+  color: #AAA;
+}
+
+#guestManagerList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  cursor: default;
+}
+
+#guestManagerList li {
+  border: 2px solid #AAA;
+  padding: 1px;
+  margin: 1px;
+  background-color:#FFF;
+  cursor: hand;
+}
+
+#guestManagerList .guestover {
+  border: 2px solid orange;
+}
+
+#guestManagerList .guestselect {
+  background: #FFEE44;
+  border: 2px solid #FFA500;
+}
+
+#newGuestActions {
+  text-align: right;
+}
+
+/*#guestManagerList .ui-selecting { background: #EEF; }
+#guestManagerList .ui-selected { background: #ABF; }*/
+/*#guestManagerList { list-style-type: none; margin: 0; padding: 0; width: 60%; }
+#guestManagerList li { margin: 3px; padding: 0.4em; font-size: 1.4em; height: 18px; }*/
+
+.guestItemSection {
+  display: inline-block;
+}
+
+.guestName {
+  width: 170px;
+}
+
+.guestNameEdit {
+  border: 2px dashed #CCC;
+  height: 5em;
+  padding: 5px;
+  overflow: scroll;
+}
+
+#otherEventGuestList {
+  width: 100%;
+  height: 200px;
+}
+
+.iframemodule-iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}

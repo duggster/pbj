@@ -1,0 +1,59 @@
+<script type="text/javascript" src="js/module/guest-manager.js"></script>
+
+<script type="text/html" id="template-guestManagerLayoutView">
+  <h3>Guest Manager</h3>
+  <div id="guestManagerMainRegion"></div>
+</script>
+
+<script type="text/html" id="template-guestManagerListView">
+  <a href="" class="otherEventsAction">Add guests from other events</a><br/>
+  <div>
+    <div id="newGuestField" class="guestNameEdit" contentEditable="true">Enter guest emails separated by commas</div>
+    <div id="newGuestActions"><a href="#" id="newGuestAction">Add</a></div>
+  </div>
+  <div id="guestListActions">
+    Select: <a href="#" id="selectAllGuestsAction">All</a> | <a href="#" id="selectNoneGuestsAction">None</a> 
+    <select id="selectedActions">
+      <option value="sendinvite">Send invite</option>
+      <option value="markin">Mark In</option>
+      <option value="markout">Mark Out</option>
+      <option value="markpending">Mark Pending</option>
+      <option value="setorg">Set as Organizer</option>
+      <option value="unsetorg">Set as Participant</option>
+      <option value="remove">Remove</option>
+    </select>
+    <a href="#" id="selectedActionsAction">Go</a>
+  </div>
+  <ul id="guestManagerList"></ul>
+</script>
+
+<script type="text/html" id="template-guestManagerItemView">
+  <div data-id="<%=id%>" class="guestItemDataId">
+    <div class="guestItemSection guestName guestStatus-<%= status%>"><%= name %></div>
+    <div class="guestItemSection"><%= getCommunicationHandleHtml() %></div>
+    <div class="guestItemSection"><%= getOrganizerHtml() %></div>
+    <div class="guestItemSection floatRight"><%= getRemoveGuestHtml() %></div>
+    <!--<div class="guestItemSection"><%= getStatus() %></div>
+    <div class="guestItemSection"><%= getInviteGuestHtml() %></div> -->
+  </div>
+</script>
+
+<script type="text/html" id="template-GuestManager-OtherEventsListView">
+  <a href="" class="guestManagerHomeAction">Cancel</a><br/>
+  Choose an event to add guests from:
+  <ul id="otherEventsList"></ul>
+</script>
+
+<script type="text/html" id="template-GuestManager-OtherEventsItemView">
+  <a href="" class="guestManager-selectEventAction"><%= title %></a>
+</script>
+
+<script type="text/html" id="template-GuestManager-OtherEventGuestListView">
+  <a href="" class="guestManagerHomeAction">Cancel</a> | <a href="" class="otherEventsAction">Back to Other Events</a> | <a href="" class="guestManagerAddOtherGuestsAction">Add Selected</a><br/>
+  Select guests to add:<br/>
+  <select multiple="true" id="otherEventGuestList"></select>
+</script>
+
+<script type="text/html" id="template-GuestManager-OtherEventGuestItemView">
+  <%= name %> (<%= communicationHandle %>)
+</script>
