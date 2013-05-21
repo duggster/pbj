@@ -13,9 +13,9 @@ class GoogleLogin {
     if ($this->client == NULL) {
       $this->client = new Google_Client();
       $this->client->setApplicationName("PB&J");
-      $this->client->setClientId('232676017603.apps.googleusercontent.com');
-      $this->client->setClientSecret('28eHEt5_gcY31qVAeQoCTRA_');
-      $this->client->setRedirectUri('http://localhost/pbj/web/oauthcallback.php'); //registered URL
+      $this->client->setClientId('232676017603-e1vfb9ci8qgisqms9c6nda2m2mq842en.apps.googleusercontent.com');
+      $this->client->setClientSecret('AedJlDsAnTByF0nr5GFaRfjQ');
+      $this->client->setRedirectUri('http://pbj-dougandjeanne.rhcloud.com/web/oauth2callback.php'); //registered URL
       $this->plus = new Google_PlusService($this->client);
     }
     return $this->client;
