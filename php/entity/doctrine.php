@@ -20,6 +20,7 @@ $isDevMode = true;
 // the connection configuration
 $dbParams = array(
     'driver'   => 'pdo_mysql',
+    'host'     => '127.5.16.1',
     'user'     => 'pbjadmin',
     'password' => 'pbjadmin',
     'dbname'   => 'pbj',
