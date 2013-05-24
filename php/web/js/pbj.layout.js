@@ -110,8 +110,8 @@ PBJ.module("Layout", function(Layout, App, Backbone, Marionette, $, _){
     /******* Modules End **********/
     
     showGuestList: function() {
-      var guestListView = new PBJ.Views.GuestListView({
-        collection: this.model.get("guests")
+      var guestListView = new PBJ.Views.GuestListSectionView({
+        model: this.model
       });
       
       this.guestList.show(guestListView);
