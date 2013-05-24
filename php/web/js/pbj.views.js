@@ -246,10 +246,13 @@ Views.GuestItemView = Backbone.Marionette.ItemView.extend({
   tagName: 'li',
   template: "#template-guestItemView",
   templateHelpers: {
-    getLoggedInText: function() {
+    getAdditionalText: function() {
       var text = "";
-      if (this.isCurrentUser) {
-        text = " (You)";
+      if (this.isCurrentUser || this.isOrganizer) {
+        var org = (this.isOrganizer) ? "Organizer" : "";
+        var both = (this.isOrganizer && this.isCurrentUser) ? ", " : "";
+        var you = (this.isCurrentUser) ? "You" : "";
+        text = " (" + org + both + you + ")";
       }
       return text;
     }
@@ -259,9 +262,60 @@ Views.GuestItemView = Backbone.Marionette.ItemView.extend({
 Views.GuestListView = Backbone.Marionette.CompositeView.extend({
   template: "#template-guestListView",
   itemView: Views.GuestItemView,
-  itemViewContainer: "#guestList",
+  itemViewContainer: "#guestList"
+});
+
+Views.GuestListSectionView = Backbone.Marionette.Layout.extend({
+  template: "#template-guestListSectionView",
+  regions: {
+    guestListContainer: "#guestListContainer"
+  },
+  events: {
+    "keyup #guestListFilterBox": "onFilterType",
+    "change #guestListStatusFilter": "onStatusChange"
+  },
+  filteredList: null,
+  listView: null,
   initialize: function() {
-    this.collection.bind("change", this.render);
+    //These show and close events are necessary because this layout is destroyed
+    //and recreated occassionally and the change event listener needs to be cleaned up.
+    this.guestListContainer.on("show", function() {
+      this.model.get("guests").on("change", this.createFilteredList, this);
+    }, this);
+    this.guestListContainer.on("close", function() {
+      this.model.get("guests").off("change", this.createFilteredList, this);
+    }, this);
+  },
+  onRender: function() {
+    this.createFilteredList();
+  },
+  onFilterType: function(e) {
+    this.createFilteredList();    
+  },
+  onStatusChange: function(e) {
+    this.createFilteredList();
+  },
+  createFilteredList: function() {
+    var self = this;
+    var filterCriteria = this.$('#guestListFilterBox').val();
+    var statusCriteria = this.$('#guestListStatusFilter').val();
+    var guests = this.model.get("guests");
+    //Can this be cached if criteria is the same?
+    //short circuit if no filtering?
+    var filteredArray = guests.filter(function(guest) {
+      var keep = false;
+      var name = guest.get("name");
+      keep = (name.indexOf(filterCriteria) > -1);
+      if (statusCriteria != "all") {
+        keep &= (guest.get("status") == statusCriteria);
+      }
+      return keep;
+    });
+    this.filteredCollection = new PBJ.Models.GuestList(filteredArray);
+    this.listView = new PBJ.Views.GuestListView({
+      collection: this.filteredCollection
+    });
+    this.guestListContainer.show(this.listView);
   }
 });
 

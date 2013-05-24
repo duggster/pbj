@@ -6,7 +6,7 @@ require_once 'GoogleLogin.php';
 
 $login = new GoogleLogin();
 $authUrl = $login->getAuthUrl('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
-//$authUrl = 'mocklogin.php';
+$authUrl = 'mocklogin.php';
 
 $googleId = (isset($_COOKIE["googleId"]))? $_COOKIE["googleId"] : NULL;
 
@@ -110,13 +110,24 @@ $googleId = (isset($_COOKIE["googleId"]))? $_COOKIE["googleId"] : NULL;
     <div class="module-min" data-id="<%= id %>"><%= title %></div>
   </script>
   
+  <script type="text/html" id="template-guestListSectionView">
+    <div id="guestListTitle"><div id="guestListActions"><input type="text" id="guestListFilterBox" placeholder="Find guests..."/>
+      <select id="guestListStatusFilter">
+        <option value="all">Show: All</option>
+        <option value="in">In</option>
+        <option value="invited">Pending</option>
+        <option value="out">Out</option>
+      </select></div>
+    <div class="moduleTitleBar moduleTitle">Guest list</div></div>
+    <div id="guestListContainer"></div>
+  </script>
+  
   <script type="text/html" id="template-guestListView">
-      <div class="moduleTitleBar"><div class="moduleTitle">Guest list</div></div>
-      <ul id="guestList"></ul>
+    <ul id="guestList"></ul>
   </script>
   
   <script type="text/html" id="template-guestItemView">
-    <span class="guestStatus-<%= status%>"> <%= name %> <%= getLoggedInText() %></span>
+    <span class="guestStatus-<%= status%>"> <%= name %> <%= getAdditionalText() %></span>
   </script>
 
   <script type="text/html" id="template-eventMessageListView">
