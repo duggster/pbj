@@ -6,7 +6,7 @@ require_once 'GoogleLogin.php';
 
 $login = new GoogleLogin();
 $authUrl = $login->getAuthUrl('http://' . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF']);
-$authUrl = 'mocklogin.php';
+//$authUrl = 'mocklogin.php';
 
 $googleId = (isset($_COOKIE["googleId"]))? $_COOKIE["googleId"] : NULL;
 
