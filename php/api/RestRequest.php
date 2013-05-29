@@ -11,13 +11,13 @@ class RestRequest
 	protected $requestLength;
 	protected $username;
 	protected $password;
-	protected $acceptType;
+	protected $headers;
 	protected $responseBody;
 	protected $responseInfo;
   
-  protected $sessionId;
+  protected $debug = true;
 	
-	public function __construct ($url = null, $verb = 'GET', $sessionId = null, $requestBody = null)
+	public function __construct ($url = null, $verb = 'GET', $headers = null, $requestBody = null)
 	{
 		$this->url				= $url;
 		$this->verb				= $verb;
@@ -25,15 +25,13 @@ class RestRequest
 		$this->requestLength	= 0;
 		$this->username			= null;
 		$this->password			= null;
-		$this->acceptType		= 'application/json';
 		$this->responseBody		= null;
 		$this->responseInfo		= null;
-    
-    $this->sessionId = $sessionId;
+    $this->headers        = $headers;
 		
 		if ($this->requestBody !== null)
 		{
-			$this->buildPostBody();
+			//$this->buildPostBody();
 		}
 	}
 	
@@ -48,6 +46,9 @@ class RestRequest
 	
 	public function execute ()
 	{
+    if ($this->debug) {
+      echo "Debugging turned ON<br/>";
+    }
 		$ch = curl_init();
 		$this->setAuth($ch);
 		
@@ -111,8 +112,8 @@ class RestRequest
 		
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $this->requestBody);
 		curl_setopt($ch, CURLOPT_POST, 1);
-		
-		$this->doExecute($ch);	
+    
+		$this->doExecute($ch);
 	}
 	
 	protected function executePut ($ch)
@@ -146,38 +147,66 @@ class RestRequest
 	
 	protected function doExecute (&$curlHandle)
 	{
-		$this->setCurlOpts($curlHandle);
+		$this->buildHeaders($curlHandle);
+    $this->setCurlOpts($curlHandle);
 		$this->responseBody = curl_exec($curlHandle);
 		$this->responseInfo	= curl_getinfo($curlHandle);
+    if ($this->debug) {
+      echo "<br/>cURL error number:" .curl_errno($curlHandle); // print error info
+      echo "<br/>cURL error:" . curl_error($curlHandle) . "<br/>"; 
+    }
 		
 		curl_close($curlHandle);
 	}
+  
+  protected function buildHeaders(&$curlHandle) {
+    if ($this->headers != null && !is_array($this->headers))
+		{
+			throw new InvalidArgumentException('Invalid headers.  Array expected');
+		}
+    
+    if ($this->headers != null) {
+      //Convert associative array to properly formatted values in a normal array
+      $headerarr = array();
+      foreach ($this->headers as $key => $value) {
+        $headerarr[] = "$key: $value\r\n";
+      }
+      
+      curl_setopt($curlHandle, CURLOPT_HTTPHEADER, $headerarr);
+    }
+  }
 	
 	protected function setCurlOpts (&$curlHandle)
 	{
+    //Set the timeout (in seconds)
 		curl_setopt($curlHandle, CURLOPT_TIMEOUT, 10);
+    //Set the URL
 		curl_setopt($curlHandle, CURLOPT_URL, $this->url);
+    //Wait for the response from the server
 		curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-		curl_setopt($curlHandle, CURLOPT_HTTPHEADER, array ('Accept: ' . $this->acceptType, 'Cookie: PHPSESSID=' . $this->sessionId));
+    //Trust all certs: http://unitstep.net/blog/2009/05/05/using-curl-in-php-to-access-https-ssltls-protected-sites/
+    curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, false);
+    //Verbose option useful for debugging
+    curl_setopt($curlHandle, CURLOPT_VERBOSE, $this->debug);
 	}
 	
 	protected function setAuth (&$curlHandle)
 	{
 		if ($this->username !== null && $this->password !== null)
 		{
-			curl_setopt($curlHandle, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
+			curl_setopt($curlHandle, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
 			curl_setopt($curlHandle, CURLOPT_USERPWD, $this->username . ':' . $this->password);
 		}
 	}
 	
-	public function getAcceptType ()
+	public function getHeaders ()
 	{
-		return $this->acceptType;
+		return $this->headers;
 	} 
 	
-	public function setAcceptType ($acceptType)
+	public function setHeaders ($headers)
 	{
-		$this->acceptType = $acceptType;
+		$this->headers = $headers;
 	} 
 	
 	public function getPassword ()

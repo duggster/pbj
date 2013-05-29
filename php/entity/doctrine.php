@@ -1,5 +1,6 @@
 <?php
 require_once '../vendor/autoload.php';
+require_once '../env/env.php';
 require_once 'user.php';
 require_once 'event.php';
 require_once 'guest.php';
@@ -15,24 +16,14 @@ use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
 
 $paths = array("../entity");
-$isDevMode = true;
 
-// the connection configuration
-$dbParams = array(
-    'driver'   => 'pdo_mysql',
-    'host'     => '127.5.16.1',
-    'user'     => 'pbjadmin',
-    'password' => 'pbjadmin',
-    'dbname'   => 'pbj',
-);
-
-$config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+$config = Setup::createAnnotationMetadataConfiguration($paths, $DOCTRINE_DEVMODE);
 $namingStrategy = new \Doctrine\ORM\Mapping\UnderscoreNamingStrategy(CASE_LOWER);
 $config->setNamingStrategy($namingStrategy);
 
 $config->setAutoGenerateProxyClasses(TRUE);
 
-$em = EntityManager::create($dbParams, $config);
+$em = EntityManager::create($DOCTRINE_DBPARAMS, $config);
 
 function getEntityManager() {
   global $em;

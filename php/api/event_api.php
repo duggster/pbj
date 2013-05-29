@@ -371,10 +371,15 @@ $slim->get('/eventMessages', function() {
     $messages[] = $message;
   }
   
+  $resp = $slim->response();
+  $resp['Content-Type'] = 'application/json';
   echo json_encode($messages);
 })->name('GET-EventMessages');
 
 $slim->get('/eventMessages/:eventMessageId', function($eventMessageId) {
+  global $slim;
+  $resp = $slim->response();
+  $resp['Content-Type'] = 'application/json';
   echo json_encode(getEventMessageById($eventMessageId));
 })->name('GET-EventMessage');
 
@@ -403,7 +408,11 @@ $slim->post('/eventMessages', function() {
     $message = $em->createQuery("SELECT m FROM \entity\EventMessage m WHERE m.id = $mid")->getSingleResult();
     $message = mapping\EventMessage::fromEntity($message);
     
+    //sendEmails($model->eventid, $message->message);
+    
     //$message = getEventMessageById($message->getId());
+    $resp = $slim->response();
+    $resp['Content-Type'] = 'application/json';
     echo json_encode($message);
   }
 })->name('POST-EventMessage');
@@ -483,5 +492,76 @@ function isModuleAllowed($webModule, $moduleRoles, $guestRoles) {
   }
   return false;
 }
+
+function sendEmails($eventid, $message) {
+  $responseCode = 0;
+  $em = \getEntityManager();
+  $event = $em->createQuery("SELECT e FROM entity\Event e WHERE e.id = $eventid")->getSingleResult();
+  if ($event != null) {
+    $subject = $event->getTitle();
+    $guests = $event->getGuests();
+    if ($guests != null && sizeof($guests) > 0) {
+      $recipients = array();
+      foreach($guests as $guest) {
+        if ($guest->getStatus() != null) {
+          $user = $guest->getUser();
+          $comms = $user->getCommunicationPreferences();
+          $email = null;
+          if ($comms != null && sizeof($comms) > 0) {
+            foreach($comms as $comm) {
+              if ($comm->getPreferenceType() == 'email'
+                  && $comm->getIsActive() == 1
+                  && $comm->getIsPrimary() == 1) {
+                $email = $comm->getHandle();
+              }
+            }
+          }
+          if ($email != null) {
+            $recipients[] = $email;
+          }
+        }
+      }
+      $recipients = implode(',', $recipients);
+      $request = new RestRequest('https://api.mailgun.net/v2/pbj.mailgun.org/messages', 'POST', 
+        array(
+          'Content-Type' => 'application/x-www-form-urlencoded'
+        ), 
+        array(
+          'from' => 'PBJ <pbj@pbj.mailgun.org>',
+          'to' => 'duggster@gmail.com',
+          'subject' => $subject,
+          'text' => $recipients . '\n' . $message
+        )
+      );
+      $request->setUsername('api');
+      $request->setPassword('key-7-561rktktrrntdrk7gzk675rvb4tlx7');
+      $request->execute();
+      $responseInfo = $request->getResponseInfo();
+      $responseCode = $responseInfo["http_code"];
+      var_dump($request);
+    }
+  }
+  return $responseCode;  
+}
+
+/*function send_simple_message() {
+  $ch = curl_init();
+
+  curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_BASIC);
+  curl_setopt($ch, CURLOPT_USERPWD, 'api:key-7-561rktktrrntdrk7gzk675rvb4tlx7');
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+  curl_setopt($ch, CURLOPT_URL, 'https://api.mailgun.net/v2/pbj.mailgun.org/messages');
+  curl_setopt($ch, CURLOPT_POSTFIELDS, array('from' => 'PBJ <pbj@pbj.mailgun.org>',
+                                             'to' => 'duggster@gmail.com',
+                                             'subject' => 'Hello',
+                                             'text' => 'Testing some Mailgun awesomness!'));
+
+  $result = curl_exec($ch);
+  curl_close($ch);
+
+  return $result;
+}*/
 
 ?>

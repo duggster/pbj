@@ -1,7 +1,5 @@
 <?php
-ini_set('display_errors', 'On');
-error_reporting(E_ALL);
-date_default_timezone_set("America/New_York");
+require_once '../env/env.php';
 
 require_once '../vendor/autoload.php';
 require_once '../entity/doctrine.php';
@@ -13,7 +11,7 @@ require_once 'RestRequest.php';
 
 $slim = new \Slim\Slim(array(
     'mode' => 'development',
-    'debug' => true
+    'debug' => $ISDEBUG
 ));
 
 $sessionManager = new SessionManager();

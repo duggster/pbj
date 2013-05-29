@@ -1,5 +1,5 @@
 <?php 
-
+require_once '../env/env.php';
 require_once '../google-api-php-client/src/Google_Client.php';
 require_once '../google-api-php-client/src/contrib/Google_PlusService.php';
 
@@ -9,21 +9,42 @@ class GoogleLogin {
   private $client;
   private $googleId;
   
+  private $appName;
+  private $clientId;
+  private $clientSecret;
+  private $redirectUri;
+  
+  private $offline;
+  
+  public function __construct () {
+    global $GOOGLE_APP_NAME, $GOOGLE_CLIENT_ID, $GOOGLE_CLIENT_SECRET, $GOOGLE_REDIRECT_URI, $GOOGLE_OFFLINE;
+    $this->appName = $GOOGLE_APP_NAME;
+    $this->clientId = $GOOGLE_CLIENT_ID;
+    $this->clientSecret = $GOOGLE_CLIENT_SECRET;
+    $this->redirectUri = $GOOGLE_REDIRECT_URI;
+    $this->offline = $GOOGLE_OFFLINE;
+  }
+  
   public function getClient() {
     if ($this->client == NULL) {
       $this->client = new Google_Client();
-      $this->client->setApplicationName("PB&J");
-      $this->client->setClientId('232676017603-e1vfb9ci8qgisqms9c6nda2m2mq842en.apps.googleusercontent.com');
-      $this->client->setClientSecret('AedJlDsAnTByF0nr5GFaRfjQ');
-      $this->client->setRedirectUri('http://pbj-dougandjeanne.rhcloud.com/web/oauthcallback.php'); //registered URL
+      $this->client->setApplicationName($this->appName);
+      $this->client->setClientId($this->clientId);
+      $this->client->setClientSecret($this->clientSecret);
+      $this->client->setRedirectUri($this->redirectUri); //registered URL
       $this->plus = new Google_PlusService($this->client);
     }
     return $this->client;
   }
   
   public function getAuthUrl($state) {
+    $authurl = "";
     $this->getClient()->setState(urlencode("$state"));
-    return $this->getClient()->createAuthUrl();
+    $authurl = $this->getClient()->createAuthUrl();
+    if ($this->offline) {
+      $authurl = "mocklogin.php";
+    }
+    return $authurl;
   }
   
   public function authenticateWithCode() {
