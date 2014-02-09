@@ -1,0 +1,111 @@
+
+/user
+{id} The user ID
+Response:
+{
+	"service":"PbjServices",
+	"resource":"user",
+	"version":"1",
+	"request":
+		[{"id":"12345"}],
+	"response":
+	{
+		"id": "12345",
+		"firstName": "Doug",
+    "lastName": "Greene",
+    "active": "true",
+    "familyId": "557",
+    "userRegistration":
+      {"ref":"http://localhost/pbj/user_reg&id=121211"},
+    "communicationPrefs": 
+      [{"ref":"http://localhost/pbj/comm_pref&id=334"},
+       {"ref":"http://localhost/pbj/comm_pref&id=756"}]
+	}
+}
+
+/comm_pref
+{id} The preference ID
+Response:
+{
+	"service":"PbjServices",
+	"resource":"comm_pref",
+	"version":"1",
+	"request":
+		[{"id":"334"}],
+	"response":
+	{
+		"id": "334",
+		"userId": "12345",
+    "prefType": "email|sms|xmpp",
+    "handle": "duggster@gmail.com",
+    "active": "true"
+	}
+}
+
+/user_reg
+{id} user registration ID
+{userId} User ID
+{inviteCode} code used for initial invite
+{googleId} google ID used if logging in from Google OAuth provider
+Response:
+{
+	"service":"PbjServices",
+	"resource":"user_reg",
+	"version":"1",
+	"request":
+		[{"inviteCode":"12334FAE98D23"}],
+	"response":
+	{
+		"id": "121211",
+		"userId": "12345",
+    "inviteCode": "12334FAE98D23",
+    "googleId": "8547493672928373802",
+    "active": "true"
+	}
+}
+
+
+/event
+{id} the Event ID
+Response:
+{
+	"service":"PbjServices",
+	"resource":"event",
+	"version":"1",
+	"request":
+		[{"id":"44205"}],
+	"response":
+	{
+		"id": "44205",
+		"title": "Holiday Party",
+    "date": "12-07-2012",
+    "time": "08:00",
+    "published": "false",
+    "guests":
+      [{"ref":"http://localhost/pbj/guest&id=137"},
+       {"ref":"http://localhost/pbj/guest&id=976"},
+       {"ref":"http://localhost/pbj/guest&id=553"},
+       {"ref":"http://localhost/pbj/guest&id=104"}
+       {"ref":"http://localhost/pbj/guest&id=1665"}]
+	}
+}
+
+/guest
+{id} user event ID
+Response:
+{
+	"service":"PbjServices",
+	"resource":"event",
+	"version":"1",
+	"request":
+		[{"id":"137"}],
+	"response":
+	{
+		"id": "137",
+    "userId": "12345",
+    "eventId": "4205",
+    "status": "in|out",
+    "inviteSent": "true"
+	}
+}
+

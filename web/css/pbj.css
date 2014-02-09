@@ -1,0 +1,570 @@
+
+body, .ckeditorBody {
+  font-family: "Trebuchet MS";
+  font-size: .8em;
+  padding: 0;
+  margin: 0;
+  background-color: #EEF;
+  height: 100%;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin-top: 0;
+}
+
+/** Sticky Footer Begin 
+* {
+  margin: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+.wrapper {
+  min-height: 100%;
+  margin: 0 auto -200px;
+}
+
+.footer, .push {
+  height: 200px;
+  clear: both;
+}
+/** Sticky Footer End **/
+
+#messageRegion {
+  position: fixed;
+  width: 400px;
+  overflow: auto;
+  background-color: #FFF;
+  border: 1px solid #889;
+  box-shadow: 3px 3px 10px #888;
+  padding: 2px;
+}
+
+.messagesMinimized {
+  bottom: 0;
+  right: 0;
+  height: 1.8em;
+  border-radius: 6px;
+}
+
+.messagesCentered {
+  top: 20px;
+  height: 6em;
+  left: 50%;
+  margin-left: -200px;
+  border-radius: 6px;
+}
+
+.messagesAction {
+  float: right;
+  cursor: hand;
+  padding: 0px 5px;
+  border: 1px solid #EEF;
+}
+
+#notificationList {
+  list-style: none;
+  margin: 0;
+  padding: 3px;
+}
+
+.notificationSubList {
+  list-style: none;
+}
+
+.notificationText {
+  color: #000;
+  padding-left: 22px;
+  background-repeat:no-repeat;
+}
+
+.notificationError {
+  color: red;
+  background-image: url(../img/error_16x16.png);
+}
+
+.notificationInfo {
+  color: #000;
+  background-image: url(../img/info_16x16.png);
+}
+
+.notificationInProgress {
+  color: #000;
+  font-weight: bold;
+  background-image: url(../img/progress_radial_16x16.gif);
+}
+
+.pbjinfobackground {
+  background-color: #EEF;
+}
+
+.pbjinfo {
+  width: 70%;
+  margin: auto;
+  border: 2px solid #AAA;
+  border-top: 0;
+  padding: 3px;
+  background-color: #FFF;
+}
+
+#currentUserHeader {
+  float: right;
+}
+
+#headerDiv {
+  border-bottom: 1px solid #000;
+  padding: 5px;
+  margin: 0;
+  color: #FFF;
+  background-color: #AAB;
+}
+
+#innerHeaderDiv {
+  margin-left: auto;
+  margin-right: auto;
+  width: 950px;
+}
+
+#appMain {
+  margin-left: auto;
+  margin-right: auto;
+  /*width: 950px;*/
+  padding: 0 10px;
+  border-top: 0;
+  overflow: auto;
+  background-color: #FFF;
+}
+
+#footer {
+}
+
+.module {
+  padding: 3px;
+  border: 1px solid #EEE;
+  margin: 3px 0px;
+  border-radius: 6px;
+}
+
+.moduleTitleBar {
+  font-weight: bold;
+  background-color: #EEF;
+  color: #AAA;
+  padding: 5px;
+  margin: 0;
+}
+
+.clearer {
+  clear: both;
+}
+
+.floatRight {
+  text-align: right;
+  float: right;
+}
+
+.hide {
+  display: none;
+}
+
+#sidebar {
+  width: 35%;
+}
+
+.moduleListFooter {
+  clear: both;
+  width: 100%;
+}
+
+#moduleListContainer {
+  overflow-y:auto;
+  border: 1px solid #EEF;
+}
+
+#moduleListContainer table {
+  border-spacing: 0;
+}
+
+#moduleListContainer td {
+  overflow: none;
+  padding: 0;
+}
+
+#moduleListRow {
+  height: 1.2em;
+}
+
+.module-min {
+  height:1.2em;
+  width:120px;
+  border: 1px solid #EEF;
+  cursor: hand;
+  background-color: #FFF;
+  color: #556;
+  padding: 2px;
+  font-size: .9em;
+}
+
+.selected-module {
+  border: 2px solid orange;
+}
+
+#eventTitleText {
+  display: inline;
+}
+
+#eventTitleActions {
+  float: right;
+}
+
+#eventMain {
+  width: 63%;
+  border: 0;
+  overflow: auto;
+  float: right;
+}
+
+#eventTitleDiv {
+  background-color: #EEF;
+  padding: 1px;  
+}
+
+#eventTitleDiv h2 {
+  margin: 0;
+}
+
+.responseSelected {
+  border: 1px solid orange;
+  background-color: #FFEE44;
+  font-weight: bold;
+  padding: 2px;
+}
+
+#guestResponseOrganizer {
+  display: none;
+}
+
+.guestResponseMessageFieldClass {
+  padding: 3px 2px;
+  margin: 0;
+}
+
+#notifyPrefSpan {
+  display: none;
+}
+
+#richDescriptionActionBar {
+  display: none;
+}
+
+#editDescription {
+  border: 1px dashed orange;
+}
+
+#showInfoSection {
+  text-align: center;
+  font-weight: bold;
+}
+
+#guestListSection {
+  float: left;
+  width: 100%;
+  border: 1px solid #EEE;
+}
+
+#guestListTitle {
+  padding-top: 0;
+}
+
+.guestCount {
+  border: 1px solid #AAA;
+  border-radius: 3px;
+  padding: 2px;
+  font-weight: normal;
+  cursor: hand;
+  color: #555;
+  width: 65px;
+  display: inline-block;
+  text-align: center;
+}
+
+.guestCount img {
+  vertical-align: middle;
+  padding-bottom: 3px;
+}
+
+.guestCountActive {
+  border-color: orange;
+}
+
+.guestCount:hover {
+  background-color: #FFC;
+}
+
+#guestListActions {
+  float: right;
+  padding-top: 3px;
+}
+
+#guestListContainer {
+  border-top: 1px solid #AAA;
+}
+
+#guestListFilterBox {
+  margin: 0;
+  width: 100px;
+}
+
+#guestListStatusFilter {
+  background-color: #EEF;
+  border: #EEF;
+}
+
+#selectedActions {
+  border: #EEF;
+}
+
+#guestList{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  overflow: auto;
+  height: 150px;
+}
+
+#guestList li {
+	margin: 0;
+  border: 2px solid #FFF;
+}
+
+#guestList li:hover {
+  border: 2px solid orange;
+  border-radius: 3px;
+}
+
+.guestStatus- {
+  color: #999;
+  font-weight: normal;
+}
+
+.guestStatus-in {
+  color: green;
+  font-weight: bold;
+}
+
+.guestStatus-invited {
+  color: navy;
+  font-style: italic;
+}
+
+.guestStatus-out {
+  color: #555;
+  font-weight: normal;
+  text-decoration: line-through;
+}
+
+.guestItemName.guestItem {
+  border-radius: 3px;
+  margin: 0px;
+  background-color:#FFF;
+  cursor: hand;
+}
+
+.guestItemName.guestover {
+  
+}
+
+.guestItemName.guestselect {
+  background: #FFEE44;
+  /*border: 2px solid #FFA500;*/
+}
+
+.kidStatusIcon {
+  padding: 3px 4px;
+  border: 1px solid #FFF;
+}
+
+.kidStatusIcon img {
+  vertical-align: text-bottom;
+}
+
+.kidStatusIconEdit:hover {
+  cursor: hand;
+  background-color: FFC;
+  border: 1px solid orange;
+  border-radius: 3px;
+}
+
+.guestItemName {
+  display: inline-block;
+  width: 48%;
+  padding: 4px;
+}
+
+.guestItemComments {
+  width: 38%;
+  border: 1px solid #EEF;
+  padding: 2px;
+}
+
+#discussionSection {
+  width: 100%;
+  float: left;
+}
+
+#eventMessagesContainer {
+  border: 1px solid #EEE;
+  clear: both;
+  max-height: 100%;
+  overflow: auto;
+}
+
+#eventMessages {
+  width: 100%;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: none;
+  overflow: auto;
+}
+
+#eventMessages li{
+  border: 2px solid #FFF;
+  border-bottom: 2px solid #EEF;
+  width: 100%;
+  padding: 2px;
+}
+
+#eventMessages li:hover {
+  border: 2px solid #CCD;
+  border-radius: 3px;
+}
+
+#newMessageField {
+  border: 1px solid #CCC;
+  padding: 3px 2px;
+  padding-bottom: 1em;
+}
+
+#postNewMessage {
+  margin-left: 5px;
+}
+
+.eventmessage-user {
+  font-weight: bold;
+  color: #AACCDD;
+}
+
+.eventmessage-timestamp {
+  font-size: .7em;
+  color: #AAA;
+}
+
+#newGuestActions {
+  text-align: right;
+}
+
+.guestNameEdit {
+  border: 2px dashed #CCC;
+  border-radius: 6px;
+  height: 5em;
+  padding: 5px;
+  overflow: scroll;
+}
+
+#otherEventGuestList {
+  width: 100%;
+  height: 200px;
+}
+
+/*
+See easyXDM for passing iframe content height to parent:
+http://easyxdm.net/wp/
+*/
+.iframemodule-iframe {
+  width: 100%;
+  border: 0;
+}
+
+.editField {
+  border: 1px solid gray;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+/*#modalBackground {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-image:url(../img/modalbg_black.png);
+}
+
+#theDialog {
+  background-color: #FFF;
+  border: 1px solid #000;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px #888;
+  padding: 3px;
+  position: absolute; 
+  top:0; bottom:0; left:0; right:0;
+  margin: auto;
+  max-width: 90%;
+  min-width: 20%;
+  max-height: 90%;
+  min-height: 20%;
+}*/
+
+#modalBackground {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1000;
+  background-image:url(../img/modalbg_black.png);
+  text-align: center;
+}
+
+/*CSS Dynamic Centering: http://stackoverflow.com/questions/59309/how-to-vertically-center-content-with-variable-height-within-a-div */
+#modalBackground:before {
+  content: '';
+  display: inline-block;
+  height: 100%; 
+  vertical-align: middle;
+}
+
+#theDialog {
+  background-color: #FFF;
+  border: 1px solid #000;
+  border-radius: 5px;
+  box-shadow: 3px 3px 10px #888;
+  padding: 3px;
+  max-width: 90%;
+  min-width: 20%;
+  max-height: 90%;
+  min-height: 20%;
+  display: inline-block;
+  vertical-align: middle;
+  text-align: left;
+  overflow: auto;
+}
+
+.dialogTitle {
+  font-weight: bold;
+}
+
+.dialogContent {
+  overflow: auto;
+  max-height: 70%;
+}
+
+
+.dialogButtons {
+  position: relative;
+  bottom: 0;
+}

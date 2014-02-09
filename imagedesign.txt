@@ -1,0 +1,20 @@
+Picture design
+
+Organizer view
+Data model:
+
+Event:
+[Text] When
+[Text] Where
+
+Event Design:
+[HTML] Event image (CKeditor)
+[HTML] Event blurb
+[Text] Site subpath
+
+Functionality:
+Edit image
+Edit blurb
+Navigate different designs
+Select/Apply design
+Broadcast

@@ -1,0 +1,13 @@
+Add html page under web/js/module
+Add js script under web/js/module
+reference js from html
+
+Add a Controller class that extends from EventWebModuleController (pbj.js)
+Create your View class from Marionette.ItemView or CollectionView. This should define a template at the minimum.
+Create the HTML in your template. Hello World
+Add an initialize function to your Controller that defines the Model and assign this.maxView to your View class. 
+
+Add record to web_module table and web_module_role table
+Add include in pbj.php
+
+Module only shows up in new events

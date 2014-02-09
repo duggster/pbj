@@ -1,0 +1,22 @@
+PBJ is designed to make planning social gatherings easier. 
+
+Simply include pbj@pbj.mailgun.org in an email and an event is created and everyone on the thread is added as a guest. It's that easy - no need to go through steps to create an account, create a design, or set up contacts in yet another site. From there on out, a unique email address for your event is created for you and your guests to include on emails going forward. 
+
+Use PBJ to help plan casual outings like going out to a movie, a bar/restaurant, or organizing a game night. You need something to let everyone know what the plan is and to keep track of who's going and who's not. 
+
+With PBJ you can:
+-Invite guests simply by including them in an email - no need to create or import yet another list of contacts
+-PBJ will automatically include guests on an email thread in case you accidentally left someone off
+-PBJ will automatically drop guests who are not interested in an event they are not attending
+-Use email normally, no need to log in to PBJ if you don't want
+-Have ultimate flexibility over how to display your event information with rich text editing
+-Use a predefined design to make your event information look pretty
+-Use modules designed by other users to help with specific types of events
+-Manage guests by linking family members or couples
+-Search and filter the guest list to easily find out if your ex is going
+-Copy a previous event, including the guest list, to a new event
+-Easily add guests from previous events you've attended
+
+Featured Event Module: Boardgames!
+"What do you want to play?" "I dunno, what do you want to play?" "Well what games do you have?"
+Plan your next game night with the Boardgames! PBJ event module. Each guest can enter games that they own (game data and pictures are pulled from boardgamegeek.com), and you can sign up for what games you want to play at the party.

@@ -1,0 +1,34 @@
+
+determine role dynamically based on given event and logged-in user
+fact.event
+fact.user
+
+organizer: guest.eventid = fact.event.id && guest.userid = fact.user.id && guest.isOrganizer=true
+guest: guest.eventid = fact.event.id && guest.userid = fact.user.id
+crasher: guest.eventid != fact.event.id || guest.userid != fact.user.id
+user-proxy: guest.userid = fact.user.id || guest.familyid = fact.user.family[id]
+guest-proxy: guest.userid = fact.user.id && guest.groupid = guest2.groupid
+
+user
+event
+guestList
+discussion
+
+view
+create
+edit
+delete
+
+organizer->event->view,create?,edit,delete
+organizer->guestList->view,edit,create,delete
+organizer->discussion->view,create,edit?,delete
+
+guest->event->view
+guest->guestList->view?
+guest->discussion->view,edit?,create
+
+crasher->event->view?
+crasher->guestList->view?
+crasher->discussion->view?
+
+

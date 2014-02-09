@@ -1,0 +1,18 @@
+﻿USE pbj;
+
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (1,1,'email','duggster@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (2,2,'email','jeanne1@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (3,7,'email','abc@123.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (4,8,'email','joe',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (149,153,'email','jeff@jeffstricker.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (150,154,'email','nguyenalext@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (152,156,'email','joemueller09@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (153,157,'email','scharf.andrew@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (154,158,'email','christina.yeh@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (155,159,'email','jyho76@hotmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (156,160,'email','johnjyoo@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (157,161,'email','erchen@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (158,162,'email','kiran.kshatriya@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (159,163,'email','tofuninja@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (160,164,'email','monina.nguyen@gmail.com',1,1);
+insert into `communication_preference`(`communication_preference_id`,`user_id`,`preference_type`,`handle`,`is_active`,`is_primary`) values (161,165,'email','angelinazolie@gmail.com',1,1);

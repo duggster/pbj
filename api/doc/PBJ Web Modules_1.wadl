@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application xmlns="http://wadl.dev.java.net/2009/02">
+  <doc xml:lang="en" title="PBJ Web Modules"/>
+  <resources base="http://localhost/pbj/api/slim.php">
+    <resource path="modules" id="Web Modules">
+      <doc xml:lang="en" title="Web Modules"/>
+      <resource path="" id="Web Module">
+        <doc xml:lang="en" title="Web Module"/>
+        <param name="id" default="id" type="xs:string" required="false" style="query" xmlns:xs="http://www.w3.org/2001/XMLSchema"/>
+        <method name="GET" id="Get Web Module by ID">
+          <doc xml:lang="en" title="Get Web Module by ID"/>
+          <request/>
+          <response status="404 500">
+            <representation mediaType="text/html" element="html"/>
+          </response>
+          <response status="200">
+            <representation mediaType="text/html" element="html"/>
+          </response>
+        </method>
+      </resource>
+      <method name="GET" id="Get All Web Modules">
+        <doc xml:lang="en" title="Get All Web Modules"/>
+        <request/>
+        <response status="401">
+          <representation mediaType="text/html"/>
+        </response>
+        <response status="200">
+          <representation mediaType="text/html"/>
+        </response>
+      </method>
+    </resource>
+  </resources>
+</application>

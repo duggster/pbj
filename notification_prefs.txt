@@ -1,0 +1,23 @@
+Broadcast:
+All: New event has been created (via pbj@pbj.mailgun.org)
+In: Other guest's status was updated
+In: Other guest has been added
+In: Organizer updated the description
+In: Message posted
+
+Reply All:
+In: Guests were added to the email thread
+In: Guests were removed from the email thread
+
+Personal - no opt out:
+You're Invited
+Your status was changed by the organizer
+You've been added to an email thread
+You've been removed from an email thread
+
+Module notifications (Broadcast):
+Boardgame - guest signed up, guest added game, guest removed game
+
+
+
+

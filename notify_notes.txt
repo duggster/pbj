@@ -1,0 +1,8 @@
+id: {name} :identifier for sub-notifications to attach to
+parentid: {name} :identifier for this notification to attach itself to
+scope: route/module/local :relates to an action a user performs. 
+message: {text} : message displayed to user
+type: error/warning/info : type of message (controls icon displayed)
+stage: begin/tick/end : stage of ajax call. tick can be used to update the notification with more info that's still in-progress
+obj: {obj} :something to carry around
+

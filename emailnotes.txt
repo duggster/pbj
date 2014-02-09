@@ -1,0 +1,31 @@
+to/cc: new@pbj.mailgun.com, bob, alice, etc...
+subject: Birthday Party
+from: doug <duggster@gmail.com>
+
+-Lookup subject line and sender/recipients to see if existing event has already been created (subject lines should be saved in DB to help with lookup in case event title changes)
+-Event created named "Birthday Party"
+-duggster@gmail.com set as Organizer, status IN
+-other To/cc recipients added as guests, status PENDING
+-body of email parsed for unique conversations and senders
+-each conversation added as posted message
+-email alias/route created: <GUID>@pbj.mailgun.com
+-email response sent from pbj-BirthdayPa-<GUID>@pbj.mailgun.com to everyone with message and link to PBJ event site
+-Allow organizer to log in and customize before sending link to everyone?
+-Email sender with options?
+
+-if subject line exists for event that matches guest list (50% match?), then goto route handler for event
+-email sender so they can update their recipient list to include new email handle, and remove new@pbj
+
+----
+to/cc: pbj-BirthdayPa-<GUID>@pbj.mailgun.com, alice, doug, etc.
+subject: Potluck possibilities
+from: bob <bob@gmail.com>
+
+-Route enables event
+-What if sender or recipients are not already guests? Add them automatically (possible preference in future/security issue?)
+-Store subject line for future reference
+-body of email parsed for unique conversations and senders (check existing messages on event too)
+-each unique conversation added as posted message
+-suppress email notification from PBJ
+
+

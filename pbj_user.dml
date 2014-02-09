@@ -1,0 +1,18 @@
+USE pbj;
+
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (1,1,null,'116065584408641849645','Doug Greene');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (2,1,null,'1234','Jeanne Sun');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (7,1,null,null,'Bob Dole');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (8,1,null,null,'Arnold Swarzenegger');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (153,1,null,'1235','Jeff Stricker');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (154,1,null,'1236','Alex Nguyen');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (156,1,null,null,'Joe Mueller');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (157,1,null,null,'Andrew Scharf');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (158,1,null,null,'Christina Yeh');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (159,1,null,null,'John Ho');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (160,1,null,null,'John Yoo');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (161,1,null,null,'Eric Chen');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (162,1,null,null,'Kiran Kshatriya');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (163,1,null,null,'Harry Wang');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (164,1,null,null,'monina.nguyen@gmail.com');
+insert into `user`(`user_id`,`is_active`,`user_family_id`,`google_id`,`name`) values (165,1,null,null,'angela chen');

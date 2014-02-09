@@ -1,0 +1,11 @@
+/web/pbj.php
+-remove mocklogin.php
+
+/web/GoogleLogin.php
+-Client ID
+-Client Secret
+-RedirectUri
+
+/entity/doctrine.php
+-dbParams
+-isDevMode

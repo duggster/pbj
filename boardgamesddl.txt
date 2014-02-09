@@ -1,0 +1,7 @@
+mod_bg_user_game
++user_id
++bgg_id
+
+mod_bg_game_signup
++guest_id
++bgg_id
