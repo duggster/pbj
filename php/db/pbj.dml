@@ -1,0 +1,194 @@
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+DROP TABLE IF EXISTS `user`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL AUTO_INCREMENT,
+  `is_active` tinyint(4) DEFAULT NULL,
+  `user_family_id` int(11) DEFAULT NULL,
+  `google_id` varchar(50) DEFAULT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `kid_status` varchar(30) DEFAULT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=266 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `user` WRITE;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,1,NULL,'116065584408641849645','Doug Greene','adult');
+INSERT INTO `user` VALUES (2,1,NULL,'1234','Jeanne Sun','adult');
+INSERT INTO `user` VALUES (7,1,NULL,NULL,'Bob Dole','adult');
+INSERT INTO `user` VALUES (8,1,NULL,NULL,'Arnold Swarzenegger','adult');
+INSERT INTO `user` VALUES (153,1,NULL,'1235','Jeff Stricker','adult');
+INSERT INTO `user` VALUES (154,1,NULL,'1236','Alex Nguyen','adult');
+INSERT INTO `user` VALUES (156,1,NULL,NULL,'Joe Mueller','adult');
+INSERT INTO `user` VALUES (157,1,NULL,NULL,'Andrew Scharf','adult');
+INSERT INTO `user` VALUES (158,1,NULL,NULL,'Christina Yeh','adult');
+INSERT INTO `user` VALUES (159,1,NULL,NULL,'John Ho','adult');
+INSERT INTO `user` VALUES (160,1,NULL,NULL,'John Yoo','adult');
+INSERT INTO `user` VALUES (161,1,NULL,NULL,'Eric Chen','adult');
+INSERT INTO `user` VALUES (162,1,NULL,NULL,'Kiran Kshatriya','adult');
+INSERT INTO `user` VALUES (163,1,NULL,NULL,'Harry Wang','adult');
+INSERT INTO `user` VALUES (164,1,NULL,NULL,'monina.nguyen@gmail.com','adult');
+INSERT INTO `user` VALUES (165,1,NULL,NULL,'angela chen','adult');
+INSERT INTO `user` VALUES (182,1,NULL,'1243','penny','adult');
+INSERT INTO `user` VALUES (183,1,NULL,'1238','sheldon','kid');
+INSERT INTO `user` VALUES (184,1,NULL,'1242','leonard','adult');
+INSERT INTO `user` VALUES (185,1,NULL,'1239','howard','adult');
+INSERT INTO `user` VALUES (186,1,NULL,'1237','rajesh','adult');
+INSERT INTO `user` VALUES (187,1,NULL,NULL,'bobby','adult');
+INSERT INTO `user` VALUES (188,1,NULL,'1244','amy','adult');
+INSERT INTO `user` VALUES (189,1,NULL,'1257','Snoopy','adult');
+INSERT INTO `user` VALUES (190,1,NULL,'1241','mario','adult');
+INSERT INTO `user` VALUES (191,1,NULL,NULL,'luigi','kid');
+INSERT INTO `user` VALUES (192,1,NULL,NULL,'bowser','adult');
+INSERT INTO `user` VALUES (193,1,NULL,NULL,'toad','adult');
+INSERT INTO `user` VALUES (194,1,NULL,NULL,'princess','adult');
+INSERT INTO `user` VALUES (195,1,NULL,'1240','yoshi','adult');
+INSERT INTO `user` VALUES (196,1,NULL,NULL,'donkey kong','adult');
+INSERT INTO `user` VALUES (197,1,NULL,NULL,'sheronda','adult');
+INSERT INTO `user` VALUES (198,1,NULL,'1245','bernadette','adult');
+INSERT INTO `user` VALUES (201,1,NULL,'1249','Alex','adult');
+INSERT INTO `user` VALUES (202,1,NULL,'1247','Jeanne','adult');
+INSERT INTO `user` VALUES (203,1,NULL,'1250','Joe Mueller','adult');
+INSERT INTO `user` VALUES (204,1,NULL,'1246','Andrew','adult');
+INSERT INTO `user` VALUES (205,1,NULL,NULL,'Jess','adult');
+INSERT INTO `user` VALUES (206,1,NULL,'1256','Joe Edappully','adult');
+INSERT INTO `user` VALUES (207,1,NULL,'1251','Kiran','adult');
+INSERT INTO `user` VALUES (208,1,NULL,'1248','Mimi','adult');
+INSERT INTO `user` VALUES (209,1,NULL,NULL,'stark','adult');
+INSERT INTO `user` VALUES (210,1,NULL,NULL,'pepper','adult');
+INSERT INTO `user` VALUES (211,1,NULL,NULL,'Eric','adult');
+INSERT INTO `user` VALUES (212,1,NULL,NULL,'Feraz','adult');
+INSERT INTO `user` VALUES (213,1,NULL,NULL,'JohnY','adult');
+INSERT INTO `user` VALUES (214,1,NULL,NULL,'lukeskywalker','adult');
+INSERT INTO `user` VALUES (215,1,NULL,'1253','captkirk','adult');
+INSERT INTO `user` VALUES (217,1,NULL,NULL,'bob','adult');
+INSERT INTO `user` VALUES (219,1,NULL,NULL,'Kevin','adult');
+INSERT INTO `user` VALUES (220,1,NULL,NULL,'pbj@pbj.mailgun.org','adult');
+INSERT INTO `user` VALUES (221,1,NULL,'1252','Doug Greene','adult');
+INSERT INTO `user` VALUES (222,1,NULL,NULL,'Bob Alice','adult');
+INSERT INTO `user` VALUES (223,1,NULL,NULL,'jimbob','adult');
+INSERT INTO `user` VALUES (224,1,NULL,NULL,'jimbo','adult');
+INSERT INTO `user` VALUES (225,1,NULL,NULL,'jerry','adult');
+INSERT INTO `user` VALUES (226,1,NULL,'1258','jello','adult');
+INSERT INTO `user` VALUES (227,1,NULL,NULL,'jiggler','adult');
+INSERT INTO `user` VALUES (228,1,NULL,NULL,'jerseymike','adult');
+INSERT INTO `user` VALUES (229,1,NULL,NULL,'jellojiggler','adult');
+INSERT INTO `user` VALUES (231,1,NULL,NULL,'sheldor','adult');
+INSERT INTO `user` VALUES (232,0,NULL,NULL,'bigbangwoo','adult');
+INSERT INTO `user` VALUES (233,1,NULL,'1254','Buu','adult');
+INSERT INTO `user` VALUES (234,1,NULL,NULL,'Christina Ho','adult');
+INSERT INTO `user` VALUES (235,1,NULL,NULL,'John Ho','adult');
+INSERT INTO `user` VALUES (236,1,NULL,NULL,'Kyle','adult');
+INSERT INTO `user` VALUES (237,1,NULL,NULL,'Alice','adult');
+INSERT INTO `user` VALUES (238,1,NULL,NULL,'Angela','adult');
+INSERT INTO `user` VALUES (239,1,NULL,NULL,'MinJin','adult');
+INSERT INTO `user` VALUES (240,1,NULL,NULL,'Kieu','adult');
+INSERT INTO `user` VALUES (241,1,NULL,NULL,'Jeff','adult');
+INSERT INTO `user` VALUES (242,1,NULL,NULL,'Beth','adult');
+INSERT INTO `user` VALUES (243,1,NULL,NULL,'Josh','adult');
+INSERT INTO `user` VALUES (244,1,NULL,NULL,'Lilly','adult');
+INSERT INTO `user` VALUES (245,1,NULL,NULL,'Grace','adult');
+INSERT INTO `user` VALUES (246,1,NULL,NULL,'Anjali','adult');
+INSERT INTO `user` VALUES (247,1,NULL,NULL,'Kurt','adult');
+INSERT INTO `user` VALUES (248,1,NULL,NULL,'JoshM','adult');
+INSERT INTO `user` VALUES (249,1,NULL,NULL,'Lex','kid');
+INSERT INTO `user` VALUES (250,1,NULL,NULL,'Gabe','baby');
+INSERT INTO `user` VALUES (251,1,NULL,NULL,'Sophie','kid');
+INSERT INTO `user` VALUES (252,1,NULL,NULL,'Ethan','baby');
+INSERT INTO `user` VALUES (253,1,NULL,'1255','Elodie Greene','baby');
+INSERT INTO `user` VALUES (254,1,NULL,NULL,'Jeremy','baby');
+INSERT INTO `user` VALUES (255,1,NULL,NULL,'David','adult');
+INSERT INTO `user` VALUES (256,1,NULL,NULL,'Quynh','kid');
+INSERT INTO `user` VALUES (257,1,NULL,NULL,'Fuzzy Winkelstein','adult');
+INSERT INTO `user` VALUES (258,1,NULL,NULL,'HumpDayCamel','adult');
+INSERT INTO `user` VALUES (259,1,NULL,NULL,'Obama','adult');
+INSERT INTO `user` VALUES (260,1,NULL,NULL,'one','adult');
+INSERT INTO `user` VALUES (261,1,NULL,NULL,'two','adult');
+INSERT INTO `user` VALUES (262,1,NULL,NULL,'wizard','adult');
+INSERT INTO `user` VALUES (263,1,NULL,NULL,'Winston','adult');
+INSERT INTO `user` VALUES (264,1,NULL,NULL,'Jefferson','adult');
+INSERT INTO `user` VALUES (265,1,NULL,NULL,'Albert Einstein','adult');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `web_module`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `web_module` (
+  `web_module_id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(150) DEFAULT NULL,
+  `controller_name` varchar(250) DEFAULT NULL,
+  `is_event_default` tinyint(4) DEFAULT '0',
+  PRIMARY KEY (`web_module_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `web_module` WRITE;
+/*!40000 ALTER TABLE `web_module` DISABLE KEYS */;
+INSERT INTO `web_module` VALUES (1,'Event Description','RichDescription.Controller',1);
+INSERT INTO `web_module` VALUES (2,'Add Guests','GuestManager.Controller',1);
+INSERT INTO `web_module` VALUES (5,'Boardgames','IframeModule.Controller',0);
+INSERT INTO `web_module` VALUES (6,'Module Manager','ModuleManagerModule.Controller',1);
+/*!40000 ALTER TABLE `web_module` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `web_module_prop`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `web_module_prop` (
+  `web_module_prop_id` int(11) NOT NULL AUTO_INCREMENT,
+  `web_module_id` int(11) NOT NULL,
+  `prop_name` varchar(120) DEFAULT NULL,
+  `prop_value` mediumtext CHARACTER SET latin1,
+  `readonly` tinyint(4) DEFAULT NULL,
+  PRIMARY KEY (`web_module_prop_id`),
+  KEY `web_module_prop_ibfk_1` (`web_module_id`),
+  CONSTRAINT `web_module_prop_ibfk_1` FOREIGN KEY (`web_module_id`) REFERENCES `web_module` (`web_module_id`) ON DELETE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `web_module_prop` WRITE;
+/*!40000 ALTER TABLE `web_module_prop` DISABLE KEYS */;
+INSERT INTO `web_module_prop` VALUES (1,5,'url','http://localhost/boardgames/web/index.php',1);
+/*!40000 ALTER TABLE `web_module_prop` ENABLE KEYS */;
+UNLOCK TABLES;
+DROP TABLE IF EXISTS `web_module_role`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `web_module_role` (
+  `web_module_role_id` int(11) NOT NULL AUTO_INCREMENT,
+  `web_module_id` int(11) DEFAULT NULL,
+  `role` varchar(80) DEFAULT NULL,
+  `action` varchar(150) DEFAULT NULL,
+  PRIMARY KEY (`web_module_role_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+LOCK TABLES `web_module_role` WRITE;
+/*!40000 ALTER TABLE `web_module_role` DISABLE KEYS */;
+INSERT INTO `web_module_role` VALUES (1,1,'all guests','use');
+INSERT INTO `web_module_role` VALUES (2,2,'organizers','use');
+INSERT INTO `web_module_role` VALUES (3,5,'all guests','use');
+INSERT INTO `web_module_role` VALUES (4,6,'organizers','use');
+/*!40000 ALTER TABLE `web_module_role` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+

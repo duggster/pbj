@@ -1,0 +1,2 @@
+mysqldump -u pbjadmin -ppbjadmin -h localhost -B pbj --skip-comments --skip-extended-insert --no-data > pbj_local.ddl
+mysqldump -u pbjadmin -ppbjadmin -h localhost -B pbj --skip-comments --skip-extended-insert --tables user web_module web_module_prop web_module_role > pbj_local.dml
