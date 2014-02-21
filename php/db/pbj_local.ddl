@@ -76,7 +76,7 @@ CREATE TABLE `event_message` (
   PRIMARY KEY (`event_message_id`),
   KEY `event_id` (`event_id`),
   CONSTRAINT `event_message_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=656 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=657 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `event_web_module`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
