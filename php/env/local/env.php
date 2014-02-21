@@ -6,7 +6,8 @@ ini_set('display_errors', (($ISDEBUG)?'on':'off'));
 error_reporting(E_ALL);
 date_default_timezone_set("America/New_York");
 
-$PBJ_URL = 'http://localhost/pbj';
+$PBJ_PROTOCOL = 'http';
+$PBJ_URL = "$PBJ_PROTOCOL://localhost/pbj";
 
 //Google OAuth Parameters
 $GOOGLE_OFFLINE = $ISDEBUGOFFLINE;
