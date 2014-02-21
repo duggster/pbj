@@ -457,13 +457,13 @@ Views.GuestItemView = Backbone.Marionette.ItemView.extend({
     getKidStatus: function() {
       var icon = " ";
       if (this.kidStatus == "adult") {
-        icon = "<img src='/pbj/web/img/adult_gray_6x16.png' title='Adult; Click to change to Kid.'/>";
+        icon = "<img src='/web/img/adult_gray_6x16.png' title='Adult; Click to change to Kid.'/>";
       }
       else if (this.kidStatus == "kid") {
-        icon = "<img src='/pbj/web/img/kid_gray_6x16.png' title='Kid; Click to change to Baby.'/>";
+        icon = "<img src='/web/img/kid_gray_6x16.png' title='Kid; Click to change to Baby.'/>";
       }
       else if (this.kidStatus == "baby") {
-        icon = "<img src='/pbj/web/img/baby_gray_6x16.png' title='Baby; Click to change to Adult.'/>";
+        icon = "<img src='/web/img/baby_gray_6x16.png' title='Baby; Click to change to Adult.'/>";
       }
       var output = icon;
       return output;
