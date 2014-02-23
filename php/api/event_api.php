@@ -176,6 +176,7 @@ $slim->post('/mailgun/debug', function() {
       $s .= ',';
     }
     $s .= '"' . urldecode($pair[0]) . '": "' . urldecode($pair[1]) . '"';
+    return $s;
   }, '{');
   $json .= '}';
   $timestamp = "" . time() . rand(1000,9999);
