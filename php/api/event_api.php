@@ -173,7 +173,7 @@ $slim->post('/mailgun/debug', function() {
   $json = array_reduce($arr, function($s, $item) {
     $pair = explode('=', $item);
     if ($s != '{') {
-      $s .= ',\n';
+      $s .= ',';
     }
     $s .= '"' . urldecode($pair[0]) . '":"' . urldecode($pair[1]) . '"';
     return $s;
