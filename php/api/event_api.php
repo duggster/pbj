@@ -166,6 +166,15 @@ $slim->post('/events/:eventid/broadcast', function($eventid) {
   }
 })->name('POST-EventBroadcast');
 
+$slim->post('/mailgun/debug', function() {
+  global $slim, $MAILGUN_OFFLINE_DIR;
+  $body = $slim->request()->getBody();
+  $filecontents = "";
+  $timestamp = "" . time() . rand(1000,9999);
+  $filecontents .= $body;
+  file_put_contents("$MAILGUN_OFFLINE_DIR/email-$timestamp.html", $filecontents);
+});
+
 $slim->post('/mailgun/events', function() {
   //TODO: Verify that request came from Mailgun. See "Securing Webhooks" in documentation
   //TODO: How to verify email is not being spoofed, especially if this can modify an event, post spam messages, add guests, etc.
