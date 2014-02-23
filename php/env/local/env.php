@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 date_default_timezone_set("America/New_York");
 
 $PBJ_PROTOCOL = 'http';
-$PBJ_URL = "$PBJ_PROTOCOL://localhost/pbj";
+$PBJ_URL = "$PBJ_PROTOCOL://pbj-local";
 
 //Google OAuth Parameters
 $GOOGLE_OFFLINE = $ISDEBUGOFFLINE;
