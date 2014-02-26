@@ -168,6 +168,8 @@ $slim->post('/events/:eventid/broadcast', function($eventid) {
 
 $slim->post('/mailgun/debug', function() {
   global $slim, $MAILGUN_OFFLINE_DIR;
+  $headers = $slim->request()->headers();
+  $headers = http_build_query($headers);
   $body = $slim->request()->getBody();
   $arr = explode('&', $body);
   $json = array_reduce($arr, function($s, $item) {
@@ -180,7 +182,7 @@ $slim->post('/mailgun/debug', function() {
   }, '{');
   $json .= '}';
   $timestamp = "" . time() . rand(1000,9999);
-  $filecontents = $json;
+  $filecontents = '' . $headers . '********' . $json;
   file_put_contents("$MAILGUN_OFFLINE_DIR/email-$timestamp.html", $filecontents);
 });
 
