@@ -182,7 +182,7 @@ $slim->post('/mailgun/debug', function() {
   }, '{');
   $json .= '}';
   $timestamp = "" . time() . rand(1000,9999);
-  $filecontents = '' . $headers . '********' . $json;
+  $filecontents = '' . $headers . '********' . $body;
   file_put_contents("$MAILGUN_OFFLINE_DIR/email-$timestamp.html", $filecontents);
 });
 
