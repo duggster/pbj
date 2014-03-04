@@ -171,30 +171,31 @@ $slim->post('/mailgun/debug', function() {
   $headers = $slim->request()->headers();
   $headers = http_build_query($headers);
   $body = $slim->request()->getBody();
-  $arr = explode('&', $body);
-  $json = array_reduce($arr, function($s, $item) {
-    $pair = explode('=', $item);
-    if ($s != '{') {
-      $s .= ',';
-    }
-    $s .= '"' . urldecode($pair[0]) . '":"' . urldecode($pair[1]) . '"';
-    return $s;
-  }, '{');
-  $json .= '}';
+  $model = readMailgunBody($slim->request());
+  $model_str = var_export($model, true);
   $timestamp = "" . time() . rand(1000,9999);
-  $filecontents = '' . $headers . '********' . $body;
+  $filecontents = "$headers********$body@@@@@@@@@$model_str";
   file_put_contents("$MAILGUN_OFFLINE_DIR/email-$timestamp.html", $filecontents);
 });
+
+function readMailgunBody($request) {
+  $body = $request->getBody();
+  $arr = array();
+  parse_str($body, $arr);
+  $obj = (object) $arr;
+  $json = json_encode($obj);
+  //var_dump(json_decode($json));
+  $model = model\Mailgun::createFromJSON($json, true);
+  return $model;
+}
 
 $slim->post('/mailgun/events', function() {
   //TODO: Verify that request came from Mailgun. See "Securing Webhooks" in documentation
   //TODO: How to verify email is not being spoofed, especially if this can modify an event, post spam messages, add guests, etc.
   
   global $slim;
-  $body = $slim->request()->getBody();
-  $model = model\Mailgun::createFromJSON($body, true);
   $event = null;
-  
+  $model = readMailgunBody($slim->request());
   $em = \getEntityManager();
   $em->transactional(function($em) use ($model, $event) {
 
@@ -331,7 +332,9 @@ function saveEmail($mailgun, $eventid) {
     $email->setCcAddresses($mailgun->Cc);
     $email->setBody($mailgun->bodyHtml);
     $email->setStrippedBody($mailgun->strippedHtml);
-    $email->setTimestamp($mailgun->timestamp);
+    $dt = new DateTime();
+    $dt->setTimestamp($mailgun->timestamp);
+    $email->setTimestamp($dt);
     
     $em->merge($email);
     $em->flush();
