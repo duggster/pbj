@@ -19,10 +19,11 @@
 
 namespace Doctrine\ORM\Mapping\Driver;
 
-use Doctrine\Common\Persistence\Mapping\ClassMetadata,
-    Doctrine\Common\Persistence\Mapping\Driver\FileDriver,
-    Doctrine\ORM\Mapping\MappingException,
-    Symfony\Component\Yaml\Yaml;
+use Doctrine\Common\Persistence\Mapping\ClassMetadata;
+use Doctrine\ORM\Mapping\Builder\EntityListenerBuilder;
+use Doctrine\Common\Persistence\Mapping\Driver\FileDriver;
+use Doctrine\ORM\Mapping\MappingException;
+use Symfony\Component\Yaml\Yaml;
 
 /**
  * The YamlDriver reads the mapping metadata from yaml schema files.
@@ -198,6 +199,7 @@ class YamlDriver extends FileDriver
 
                 if (is_string($index['columns'])) {
                     $columns = explode(',', $index['columns']);
+                    $columns = array_map('trim', $columns);
                 } else {
                     $columns = $index['columns'];
                 }
@@ -217,6 +219,7 @@ class YamlDriver extends FileDriver
 
                 if (is_string($unique['columns'])) {
                     $columns = explode(',', $unique['columns']);
+                    $columns = array_map('trim', $columns);
                 } else {
                     $columns = $unique['columns'];
                 }
@@ -261,6 +264,10 @@ class YamlDriver extends FileDriver
                     $mapping['columnDefinition'] = $idElement['columnDefinition'];
                 }
 
+                if (isset($idElement['options'])) {
+                    $mapping['options'] = $idElement['options'];
+                }
+
                 $metadata->mapField($mapping);
 
                 if (isset($idElement['generator'])) {
@@ -295,9 +302,15 @@ class YamlDriver extends FileDriver
                     }
                 }
 
+                if (isset($mapping['version'])) {
+                    $metadata->setVersionMapping($mapping);
+                    unset($mapping['version']);
+                }
+
                 $metadata->mapField($mapping);
             }
         }
+
 
         // Evaluate oneToOne relationships
         if (isset($element['oneToOne'])) {
@@ -566,13 +579,32 @@ class YamlDriver extends FileDriver
                 }
             }
         }
+
+        // Evaluate entityListeners
+        if (isset($element['entityListeners'])) {
+            foreach ($element['entityListeners'] as $className => $entityListener) {
+                // Evaluate the listener using naming convention.
+                if (empty($entityListener)) {
+                    EntityListenerBuilder::bindEntityListener($metadata, $className);
+
+                    continue;
+                }
+
+                foreach ($entityListener as $eventName => $callbackElement){
+                    foreach ($callbackElement as $methodName){
+                        $metadata->addEntityListener($eventName, $className, $methodName);
+                    }
+                }
+            }
+        }
     }
 
     /**
      * Constructs a joinColumn mapping array based on the information
      * found in the given join column element.
      *
-     * @param array $joinColumnElement The array join column element
+     * @param array $joinColumnElement The array join column element.
+     *
      * @return array The mapping array.
      */
     private function joinColumnToArray($joinColumnElement)
@@ -610,10 +642,11 @@ class YamlDriver extends FileDriver
     }
 
     /**
-     * Parse the given column as array
+     * Parses the given column as array.
      *
-     * @param   string  $fieldName
-     * @param   array   $column
+     * @param string $fieldName
+     * @param array  $column
+     *
      * @return  array
      */
     private function columnToArray($fieldName, $column)
@@ -628,7 +661,7 @@ class YamlDriver extends FileDriver
             $mapping['type'] = $column['type'];
 
             if (isset($params[1])) {
-                $column['length'] = substr($params[1], 0, strlen($params[1]) - 1);
+                $column['length'] = (integer) substr($params[1], 0, strlen($params[1]) - 1);
             }
         }
 

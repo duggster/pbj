@@ -19,12 +19,12 @@
 
 namespace Doctrine\ORM\Tools;
 
-use Doctrine\ORM\Mapping\ClassMetadataInfo,
-    Doctrine\Common\Util\Inflector,
-    Doctrine\DBAL\Types\Type;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\Common\Util\Inflector;
+use Doctrine\DBAL\Types\Type;
 
 /**
- * Generic class used to generate PHP5 entity classes from ClassMetadataInfo instances
+ * Generic class used to generate PHP5 entity classes from ClassMetadataInfo instances.
  *
  *     [php]
  *     $classes = $em->getClassMetadataFactory()->getAllMetadata();
@@ -47,102 +47,102 @@ use Doctrine\ORM\Mapping\ClassMetadataInfo,
 class EntityGenerator
 {
     /**
-     * Specifies class fields should be protected
+     * Specifies class fields should be protected.
      */
     const FIELD_VISIBLE_PROTECTED = 'protected';
 
     /**
-     * Specifies class fields should be private
+     * Specifies class fields should be private.
      */
     const FIELD_VISIBLE_PRIVATE = 'private';
 
     /**
      * @var bool
      */
-    private $backupExisting = true;
+    protected $backupExisting = true;
 
     /**
-     * The extension to use for written php files
+     * The extension to use for written php files.
      *
      * @var string
      */
-    private $extension = '.php';
+    protected $extension = '.php';
 
     /**
-     * Whether or not the current ClassMetadataInfo instance is new or old
+     * Whether or not the current ClassMetadataInfo instance is new or old.
      *
      * @var boolean
      */
-    private $isNew = true;
+    protected $isNew = true;
 
     /**
      * @var array
      */
-    private $staticReflection = array();
+    protected $staticReflection = array();
 
     /**
-     * Number of spaces to use for indention in generated code
+     * Number of spaces to use for indention in generated code.
      */
-    private $numSpaces = 4;
+    protected $numSpaces = 4;
 
     /**
-     * The actual spaces to use for indention
+     * The actual spaces to use for indention.
      *
      * @var string
      */
-    private $spaces = '    ';
+    protected $spaces = '    ';
 
     /**
-     * The class all generated entities should extend
+     * The class all generated entities should extend.
      *
      * @var string
      */
-    private $classToExtend;
+    protected $classToExtend;
 
     /**
-     * Whether or not to generation annotations
+     * Whether or not to generation annotations.
      *
      * @var boolean
      */
-    private $generateAnnotations = false;
+    protected $generateAnnotations = false;
 
     /**
      * @var string
      */
-    private $annotationsPrefix = '';
+    protected $annotationsPrefix = '';
 
     /**
-     * Whether or not to generated sub methods
+     * Whether or not to generate sub methods.
      *
      * @var boolean
      */
-    private $generateEntityStubMethods = false;
+    protected $generateEntityStubMethods = false;
 
     /**
-     * Whether or not to update the entity class if it exists already
+     * Whether or not to update the entity class if it exists already.
      *
      * @var boolean
      */
-    private $updateEntityIfExists = false;
+    protected $updateEntityIfExists = false;
 
     /**
-     * Whether or not to re-generate entity class if it exists already
+     * Whether or not to re-generate entity class if it exists already.
      *
      * @var boolean
      */
-    private $regenerateEntityIfExists = false;
+    protected $regenerateEntityIfExists = false;
 
     /**
      * @var boolean
      */
-    private $fieldVisibility = 'private';
+    protected $fieldVisibility = 'private';
 
     /**
-     * Hash-map for handle types
+     * Hash-map for handle types.
      *
      * @var array
      */
-    private $typeAlias = array(
+    protected $typeAlias = array(
         Type::DATETIMETZ    => '\DateTime',
         Type::DATETIME      => '\DateTime',
         Type::DATE          => '\DateTime',
@@ -152,15 +152,53 @@ class EntityGenerator
         Type::SMALLINT      => 'integer',
         Type::TEXT          => 'string',
         Type::BLOB          => 'string',
-        Type::DECIMAL       => 'float',
+        Type::DECIMAL       => 'string',
         Type::JSON_ARRAY    => 'array',
         Type::SIMPLE_ARRAY  => 'array',
     );
 
     /**
+     * Hash-map to handle generator types string.
+     *
+     * @var array
+     */
+    protected static $generatorStrategyMap = array(
+        ClassMetadataInfo::GENERATOR_TYPE_AUTO      => 'AUTO',
+        ClassMetadataInfo::GENERATOR_TYPE_SEQUENCE  => 'SEQUENCE',
+        ClassMetadataInfo::GENERATOR_TYPE_TABLE     => 'TABLE',
+        ClassMetadataInfo::GENERATOR_TYPE_IDENTITY  => 'IDENTITY',
+        ClassMetadataInfo::GENERATOR_TYPE_NONE      => 'NONE',
+        ClassMetadataInfo::GENERATOR_TYPE_UUID      => 'UUID',
+        ClassMetadataInfo::GENERATOR_TYPE_CUSTOM    => 'CUSTOM'
+    );
+
+    /**
+     * Hash-map to handle the change tracking policy string.
+     *
+     * @var array
+     */
+    protected static $changeTrackingPolicyMap = array(
+        ClassMetadataInfo::CHANGETRACKING_DEFERRED_IMPLICIT  => 'DEFERRED_IMPLICIT',
+        ClassMetadataInfo::CHANGETRACKING_DEFERRED_EXPLICIT  => 'DEFERRED_EXPLICIT',
+        ClassMetadataInfo::CHANGETRACKING_NOTIFY             => 'NOTIFY',
+    );
+
+    /**
+     * Hash-map to handle the inheritance type string.
+     *
+     * @var array
+     */
+    protected static $inheritanceTypeMap = array(
+        ClassMetadataInfo::INHERITANCE_TYPE_NONE            => 'NONE',
+        ClassMetadataInfo::INHERITANCE_TYPE_JOINED          => 'JOINED',
+        ClassMetadataInfo::INHERITANCE_TYPE_SINGLE_TABLE    => 'SINGLE_TABLE',
+        ClassMetadataInfo::INHERITANCE_TYPE_TABLE_PER_CLASS => 'TABLE_PER_CLASS',
+    );
+
+    /**
      * @var string
      */
-    private static $classTemplate =
+    protected static $classTemplate =
 '<?php
 
 <namespace>
@@ -177,7 +215,7 @@ use Doctrine\ORM\Mapping as ORM;
     /**
      * @var string
      */
-    private static $getMethodTemplate =
+    protected static $getMethodTemplate =
 '/**
  * <description>
  *
@@ -191,7 +229,7 @@ public function <methodName>()
     /**
      * @var string
      */
-    private static $setMethodTemplate =
+    protected static $setMethodTemplate =
 '/**
  * <description>
  *
@@ -208,7 +246,7 @@ public function <methodName>(<methodTypeHint>$<variableName><variableDefault>)
     /**
      * @var string
      */
-    private static $addMethodTemplate =
+    protected static $addMethodTemplate =
 '/**
  * <description>
  *
@@ -225,7 +263,7 @@ public function <methodName>(<methodTypeHint>$<variableName>)
     /**
      * @var string
      */
-    private static $removeMethodTemplate =
+    protected static $removeMethodTemplate =
 '/**
  * <description>
  *
@@ -239,7 +277,7 @@ public function <methodName>(<methodTypeHint>$<variableName>)
     /**
      * @var string
      */
-    private static $lifecycleCallbackMethodTemplate =
+    protected static $lifecycleCallbackMethodTemplate =
 '/**
  * @<name>
  */
@@ -251,7 +289,7 @@ public function <methodName>()
     /**
      * @var string
      */
-    private static $constructorMethodTemplate =
+    protected static $constructorMethodTemplate =
 '/**
  * Constructor
  */
@@ -261,6 +299,9 @@ public function __construct()
 }
 ';
 
+    /**
+     * Constructor.
+     */
     public function __construct()
     {
         if (version_compare(\Doctrine\Common\Version::VERSION, '2.2.0-DEV', '>=')) {
@@ -269,10 +310,11 @@ public function __construct()
     }
 
     /**
-     * Generate and write entity classes for the given array of ClassMetadataInfo instances
+     * Generates and writes entity classes for the given array of ClassMetadataInfo instances.
      *
-     * @param array $metadatas
+     * @param array  $metadatas
      * @param string $outputDirectory
+     *
      * @return void
      */
     public function generate(array $metadatas, $outputDirectory)
@@ -283,11 +325,14 @@ public function __construct()
     }
 
     /**
-     * Generated and write entity class to disk for the given ClassMetadataInfo instance
+     * Generates and writes entity class to disk for the given ClassMetadataInfo instance.
      *
      * @param ClassMetadataInfo $metadata
-     * @param string $outputDirectory
+     * @param string            $outputDirectory
+     *
      * @return void
+     *
+     * @throws \RuntimeException
      */
     public function writeEntityClass(ClassMetadataInfo $metadata, $outputDirectory)
     {
@@ -317,16 +362,17 @@ public function __construct()
         if ($this->isNew) {
             file_put_contents($path, $this->generateEntityClass($metadata));
         // If entity exists and we're allowed to update the entity class
-        } else if ( ! $this->isNew && $this->updateEntityIfExists) {
+        } elseif ( ! $this->isNew && $this->updateEntityIfExists) {
             file_put_contents($path, $this->generateUpdatedEntityClass($metadata, $path));
         }
     }
 
     /**
-     * Generate a PHP5 Doctrine 2 entity class from the given ClassMetadataInfo instance
+     * Generates a PHP5 Doctrine 2 entity class from the given ClassMetadataInfo instance.
      *
      * @param ClassMetadataInfo $metadata
-     * @return string $code
+     *
+     * @return string
      */
     public function generateEntityClass(ClassMetadataInfo $metadata)
     {
@@ -345,15 +391,17 @@ public function __construct()
         );
 
         $code = str_replace($placeHolders, $replacements, self::$classTemplate);
+
         return str_replace('<spaces>', $this->spaces, $code);
     }
 
     /**
-     * Generate the updated code for the given ClassMetadataInfo and entity at path
+     * Generates the updated code for the given ClassMetadataInfo and entity at path.
      *
      * @param ClassMetadataInfo $metadata
-     * @param string $path
-     * @return string $code;
+     * @param string            $path
+     *
+     * @return string
      */
     public function generateUpdatedEntityClass(ClassMetadataInfo $metadata, $path)
     {
@@ -363,13 +411,14 @@ public function __construct()
         $body = str_replace('<spaces>', $this->spaces, $body);
         $last = strrpos($currentCode, '}');
 
-        return substr($currentCode, 0, $last) . $body . (strlen($body) > 0 ? "\n" : ''). "}";
+        return substr($currentCode, 0, $last) . $body . (strlen($body) > 0 ? "\n" : ''). "}\n";
     }
 
     /**
-     * Set the number of spaces the exported class should have
+     * Sets the number of spaces the exported class should have.
      *
      * @param integer $numSpaces
+     *
      * @return void
      */
     public function setNumSpaces($numSpaces)
@@ -379,9 +428,10 @@ public function __construct()
     }
 
     /**
-     * Set the extension to use when writing php files to disk
+     * Sets the extension to use when writing php files to disk.
      *
      * @param string $extension
+     *
      * @return void
      */
     public function setExtension($extension)
@@ -390,7 +440,9 @@ public function __construct()
     }
 
     /**
-     * Set the name of the class the generated classes should extend from
+     * Sets the name of the class the generated classes should extend from.
+     *
+     * @param string $classToExtend
      *
      * @return void
      */
@@ -400,9 +452,10 @@ public function __construct()
     }
 
     /**
-     * Set whether or not to generate annotations for the entity
+     * Sets whether or not to generate annotations for the entity.
      *
      * @param bool $bool
+     *
      * @return void
      */
     public function setGenerateAnnotations($bool)
@@ -411,24 +464,29 @@ public function __construct()
     }
 
     /**
-     * Set the class fields visibility for the entity (can either be private or protected)
+     * Sets the class fields visibility for the entity (can either be private or protected).
      *
-     * @param bool $bool
+     * @param bool $visibility
+     *
      * @return void
+     *
+     * @throws \InvalidArgumentException
      */
     public function setFieldVisibility($visibility)
     {
         if ($visibility !== self::FIELD_VISIBLE_PRIVATE && $visibility !== self::FIELD_VISIBLE_PROTECTED) {
-            throw new \InvalidArgumentException('Invalid provided visibilty (only private and protected are allowed): ' . $visibility);
+            throw new \InvalidArgumentException('Invalid provided visibility (only private and protected are allowed): ' . $visibility);
         }
 
         $this->fieldVisibility = $visibility;
     }
 
     /**
-     * Set an annotation prefix.
+     * Sets an annotation prefix.
      *
      * @param string $prefix
+     *
+     * @return void
      */
     public function setAnnotationPrefix($prefix)
     {
@@ -436,9 +494,10 @@ public function __construct()
     }
 
     /**
-     * Set whether or not to try and update the entity if it already exists
+     * Sets whether or not to try and update the entity if it already exists.
      *
      * @param bool $bool
+     *
      * @return void
      */
     public function setUpdateEntityIfExists($bool)
@@ -447,9 +506,10 @@ public function __construct()
     }
 
     /**
-     * Set whether or not to regenerate the entity if it exists
+     * Sets whether or not to regenerate the entity if it exists.
      *
      * @param bool $bool
+     *
      * @return void
      */
     public function setRegenerateEntityIfExists($bool)
@@ -458,9 +518,10 @@ public function __construct()
     }
 
     /**
-     * Set whether or not to generate stub methods for the entity
+     * Sets whether or not to generate stub methods for the entity.
      *
      * @param bool $bool
+     *
      * @return void
      */
     public function setGenerateStubMethods($bool)
@@ -470,17 +531,22 @@ public function __construct()
 
     /**
      * Should an existing entity be backed up if it already exists?
+     *
+     * @param bool $bool
+     *
+     * @return void
      */
     public function setBackupExisting($bool)
     {
         $this->backupExisting = $bool;
     }
 
-     /**
-     * @param   string $type
-     * @return  string
+    /**
+     * @param string $type
+     *
+     * @return string
      */
-    private function getType($type)
+    protected function getType($type)
     {
         if (isset($this->typeAlias[$type])) {
             return $this->typeAlias[$type];
@@ -489,20 +555,35 @@ public function __construct()
         return $type;
     }
 
-    private function generateEntityNamespace(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateEntityNamespace(ClassMetadataInfo $metadata)
     {
         if ($this->hasNamespace($metadata)) {
             return 'namespace ' . $this->getNamespace($metadata) .';';
         }
     }
 
-    private function generateEntityClassName(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateEntityClassName(ClassMetadataInfo $metadata)
     {
         return 'class ' . $this->getClassName($metadata) .
             ($this->extendsClass() ? ' extends ' . $this->getClassToExtendName() : null);
     }
 
-    private function generateEntityBody(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateEntityBody(ClassMetadataInfo $metadata)
     {
         $fieldMappingProperties = $this->generateEntityFieldMappingProperties($metadata);
         $associationMappingProperties = $this->generateEntityAssociationMappingProperties($metadata);
@@ -532,7 +613,12 @@ public function __construct()
         return implode("\n", $code);
     }
 
-    private function generateEntityConstructor(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateEntityConstructor(ClassMetadataInfo $metadata)
     {
         if ($this->hasMethod('__construct', $metadata)) {
             return '';
@@ -555,9 +641,12 @@ public function __construct()
 
     /**
      * @todo this won't work if there is a namespace in brackets and a class outside of it.
+     *
      * @param string $src
+     *
+     * @return void
      */
-    private function parseTokensInEntityFile($src)
+    protected function parseTokensInEntityFile($src)
     {
         $tokens = token_get_all($src);
         $lastSeenNamespace = "";
@@ -565,6 +654,7 @@ public function __construct()
 
         $inNamespace = false;
         $inClass = false;
+
         for ($i = 0; $i < count($tokens); $i++) {
             $token = $tokens[$i];
             if (in_array($token[0], array(T_WHITESPACE, T_COMMENT, T_DOC_COMMENT))) {
@@ -574,7 +664,7 @@ public function __construct()
             if ($inNamespace) {
                 if ($token[0] == T_NS_SEPARATOR || $token[0] == T_STRING) {
                     $lastSeenNamespace .= $token[1];
-                } else if (is_string($token) && in_array($token, array(';', '{'))) {
+                } elseif (is_string($token) && in_array($token, array(';', '{'))) {
                     $inNamespace = false;
                 }
             }
@@ -589,21 +679,27 @@ public function __construct()
             if ($token[0] == T_NAMESPACE) {
                 $lastSeenNamespace = "";
                 $inNamespace = true;
-            } else if ($token[0] == T_CLASS) {
+            } elseif ($token[0] == T_CLASS) {
                 $inClass = true;
-            } else if ($token[0] == T_FUNCTION) {
+            } elseif ($token[0] == T_FUNCTION) {
                 if ($tokens[$i+2][0] == T_STRING) {
                     $this->staticReflection[$lastSeenClass]['methods'][] = $tokens[$i+2][1];
-                } else if ($tokens[$i+2] == "&" && $tokens[$i+3][0] == T_STRING) {
+                } elseif ($tokens[$i+2] == "&" && $tokens[$i+3][0] == T_STRING) {
                     $this->staticReflection[$lastSeenClass]['methods'][] = $tokens[$i+3][1];
                 }
-            } else if (in_array($token[0], array(T_VAR, T_PUBLIC, T_PRIVATE, T_PROTECTED)) && $tokens[$i+2][0] != T_FUNCTION) {
+            } elseif (in_array($token[0], array(T_VAR, T_PUBLIC, T_PRIVATE, T_PROTECTED)) && $tokens[$i+2][0] != T_FUNCTION) {
                 $this->staticReflection[$lastSeenClass]['properties'][] = substr($tokens[$i+2][1], 1);
             }
         }
     }
 
-    private function hasProperty($property, ClassMetadataInfo $metadata)
+    /**
+     * @param string            $property
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return bool
+     */
+    protected function hasProperty($property, ClassMetadataInfo $metadata)
     {
         if ($this->extendsClass()) {
             // don't generate property if its already on the base class.
@@ -619,11 +715,18 @@ public function __construct()
         );
     }
 
-    private function hasMethod($method, ClassMetadataInfo $metadata)
+    /**
+     * @param string            $method
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return bool
+     */
+    protected function hasMethod($method, ClassMetadataInfo $metadata)
     {
         if ($this->extendsClass()) {
             // don't generate method if its already on the base class.
             $reflClass = new \ReflectionClass($this->getClassToExtend());
+
             if ($reflClass->hasMethod($method)) {
                 return true;
             }
@@ -635,44 +738,73 @@ public function __construct()
         );
     }
 
-    private function hasNamespace(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return bool
+     */
+    protected function hasNamespace(ClassMetadataInfo $metadata)
     {
         return strpos($metadata->name, '\\') ? true : false;
     }
 
-    private function extendsClass()
+    /**
+     * @return bool
+     */
+    protected function extendsClass()
     {
         return $this->classToExtend ? true : false;
     }
 
-    private function getClassToExtend()
+    /**
+     * @return string
+     */
+    protected function getClassToExtend()
     {
         return $this->classToExtend;
     }
 
-    private function getClassToExtendName()
+    /**
+     * @return string
+     */
+    protected function getClassToExtendName()
     {
         $refl = new \ReflectionClass($this->getClassToExtend());
 
         return '\\' . $refl->getName();
     }
 
-    private function getClassName(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function getClassName(ClassMetadataInfo $metadata)
     {
         return ($pos = strrpos($metadata->name, '\\'))
             ? substr($metadata->name, $pos + 1, strlen($metadata->name)) : $metadata->name;
     }
 
-    private function getNamespace(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function getNamespace(ClassMetadataInfo $metadata)
     {
         return substr($metadata->name, 0, strrpos($metadata->name, '\\'));
     }
 
-    private function generateEntityDocBlock(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateEntityDocBlock(ClassMetadataInfo $metadata)
     {
         $lines = array();
         $lines[] = '/**';
-        $lines[] = ' * '.$metadata->name;
+        $lines[] = ' * ' . $this->getClassName($metadata);
 
         if ($this->generateAnnotations) {
             $lines[] = ' *';
@@ -710,7 +842,12 @@ public function __construct()
         return implode("\n", $lines);
     }
 
-    private function generateTableAnnotation($metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateTableAnnotation($metadata)
     {
         $table = array();
 
@@ -735,7 +872,13 @@ public function __construct()
         return '@' . $this->annotationsPrefix . 'Table(' . implode(', ', $table) . ')';
     }
 
-    private function generateTableConstraints($constraintName, $constraints)
+    /**
+     * @param string $constraintName
+     * @param array  $constraints
+     *
+     * @return string
+     */
+    protected function generateTableConstraints($constraintName, $constraints)
     {
         $annotations = array();
         foreach ($constraints as $name => $constraint) {
@@ -748,17 +891,27 @@ public function __construct()
         return implode(', ', $annotations);
     }
 
-    private function generateInheritanceAnnotation($metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateInheritanceAnnotation($metadata)
     {
         if ($metadata->inheritanceType != ClassMetadataInfo::INHERITANCE_TYPE_NONE) {
             return '@' . $this->annotationsPrefix . 'InheritanceType("'.$this->getInheritanceTypeString($metadata->inheritanceType).'")';
         }
     }
 
-    private function generateDiscriminatorColumnAnnotation($metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateDiscriminatorColumnAnnotation($metadata)
     {
         if ($metadata->inheritanceType != ClassMetadataInfo::INHERITANCE_TYPE_NONE) {
-            $discrColumn = $metadata->discriminatorValue;
+            $discrColumn = $metadata->discriminatorColumn;
             $columnDefinition = 'name="' . $discrColumn['name']
                 . '", type="' . $discrColumn['type']
                 . '", length=' . $discrColumn['length'];
@@ -767,7 +920,12 @@ public function __construct()
         }
     }
 
-    private function generateDiscriminatorMapAnnotation($metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateDiscriminatorMapAnnotation($metadata)
     {
         if ($metadata->inheritanceType != ClassMetadataInfo::INHERITANCE_TYPE_NONE) {
             $inheritanceClassMap = array();
@@ -780,7 +938,12 @@ public function __construct()
         }
     }
 
-    private function generateEntityStubMethods(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateEntityStubMethods(ClassMetadataInfo $metadata)
     {
         $methods = array();
 
@@ -805,7 +968,7 @@ public function __construct()
                 if ($code = $this->generateEntityStubMethod($metadata, 'get', $associationMapping['fieldName'], $associationMapping['targetEntity'])) {
                     $methods[] = $code;
                 }
-            } else if ($associationMapping['type'] & ClassMetadataInfo::TO_MANY) {
+            } elseif ($associationMapping['type'] & ClassMetadataInfo::TO_MANY) {
                 if ($code = $this->generateEntityStubMethod($metadata, 'add', $associationMapping['fieldName'], $associationMapping['targetEntity'])) {
                     $methods[] = $code;
                 }
@@ -821,26 +984,39 @@ public function __construct()
         return implode("\n\n", $methods);
     }
 
-    private function isAssociationIsNullable($associationMapping)
+    /**
+     * @param array $associationMapping
+     *
+     * @return bool
+     */
+    protected function isAssociationIsNullable($associationMapping)
     {
         if (isset($associationMapping['id']) && $associationMapping['id']) {
             return false;
         }
+
         if (isset($associationMapping['joinColumns'])) {
             $joinColumns = $associationMapping['joinColumns'];
         } else {
-            //@todo thereis no way to retreive targetEntity metadata
+            //@todo there is no way to retrieve targetEntity metadata
             $joinColumns = array();
         }
+
         foreach ($joinColumns as $joinColumn) {
             if(isset($joinColumn['nullable']) && !$joinColumn['nullable']) {
                 return false;
             }
         }
+
         return true;
     }
 
-    private function generateEntityLifecycleCallbackMethods(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateEntityLifecycleCallbackMethods(ClassMetadataInfo $metadata)
     {
         if (isset($metadata->lifecycleCallbacks) && $metadata->lifecycleCallbacks) {
             $methods = array();
@@ -859,7 +1035,12 @@ public function __construct()
         return "";
     }
 
-    private function generateEntityAssociationMappingProperties(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateEntityAssociationMappingProperties(ClassMetadataInfo $metadata)
     {
         $lines = array();
 
@@ -876,7 +1057,12 @@ public function __construct()
         return implode("\n", $lines);
     }
 
-    private function generateEntityFieldMappingProperties(ClassMetadataInfo $metadata)
+    /**
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateEntityFieldMappingProperties(ClassMetadataInfo $metadata)
     {
         $lines = array();
 
@@ -894,24 +1080,38 @@ public function __construct()
         return implode("\n", $lines);
     }
 
-    private function generateEntityStubMethod(ClassMetadataInfo $metadata, $type, $fieldName, $typeHint = null,  $defaultValue = null)
+    /**
+     * @param ClassMetadataInfo $metadata
+     * @param string            $type
+     * @param string            $fieldName
+     * @param string|null       $typeHint
+     * @param string|null       $defaultValue
+     *
+     * @return string
+     */
+    protected function generateEntityStubMethod(ClassMetadataInfo $metadata, $type, $fieldName, $typeHint = null,  $defaultValue = null)
     {
         $methodName = $type . Inflector::classify($fieldName);
-        if (in_array($type, array("add", "remove")) && substr($methodName, -1) == "s") {
-            $methodName = substr($methodName, 0, -1);
+        if (in_array($type, array("add", "remove"))) {
+            $methodName = Inflector::singularize($methodName);
         }
 
         if ($this->hasMethod($methodName, $metadata)) {
-            return;
+            return '';
         }
         $this->staticReflection[$metadata->name]['methods'][] = $methodName;
 
         $var = sprintf('%sMethodTemplate', $type);
         $template = self::$$var;
 
+        $methodTypeHint = null;
         $types          = Type::getTypesMap();
         $variableType   = $typeHint ? $this->getType($typeHint) . ' ' : null;
-        $methodTypeHint = $typeHint && ! isset($types[$typeHint]) ? '\\' . $typeHint . ' ' : null;
+
+        if ($typeHint && ! isset($types[$typeHint])) {
+            $variableType   =  '\\' . ltrim($variableType, '\\');
+            $methodTypeHint =  '\\' . $typeHint . ' ';
+        }
 
         $replacements = array(
           '<description>'       => ucfirst($type) . ' ' . $fieldName,
@@ -933,10 +1133,17 @@ public function __construct()
         return $this->prefixCodeWithSpaces($method);
     }
 
-    private function generateLifecycleCallbackMethod($name, $methodName, $metadata)
+    /**
+     * @param string            $name
+     * @param string            $methodName
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateLifecycleCallbackMethod($name, $methodName, $metadata)
     {
         if ($this->hasMethod($methodName, $metadata)) {
-            return;
+            return '';
         }
         $this->staticReflection[$metadata->name]['methods'][] = $methodName;
 
@@ -954,7 +1161,12 @@ public function __construct()
         return $this->prefixCodeWithSpaces($method);
     }
 
-    private function generateJoinColumnAnnotation(array $joinColumn)
+    /**
+     * @param array $joinColumn
+     *
+     * @return string
+     */
+    protected function generateJoinColumnAnnotation(array $joinColumn)
     {
         $joinColumnAnnot = array();
 
@@ -985,15 +1197,21 @@ public function __construct()
         return '@' . $this->annotationsPrefix . 'JoinColumn(' . implode(', ', $joinColumnAnnot) . ')';
     }
 
-    private function generateAssociationMappingPropertyDocBlock(array $associationMapping, ClassMetadataInfo $metadata)
+    /**
+     * @param array             $associationMapping
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateAssociationMappingPropertyDocBlock(array $associationMapping, ClassMetadataInfo $metadata)
     {
         $lines = array();
         $lines[] = $this->spaces . '/**';
 
         if ($associationMapping['type'] & ClassMetadataInfo::TO_MANY) {
-            $lines[] = $this->spaces . ' * @var \Doctrine\Common\Collections\ArrayCollection';
+            $lines[] = $this->spaces . ' * @var \Doctrine\Common\Collections\Collection';
         } else {
-            $lines[] = $this->spaces . ' * @var ' . $associationMapping['targetEntity'];
+            $lines[] = $this->spaces . ' * @var \\' . ltrim($associationMapping['targetEntity'], '\\');
         }
 
         if ($this->generateAnnotations) {
@@ -1045,11 +1263,24 @@ public function __construct()
                 if ($associationMapping['isCascadeMerge']) $cascades[] = '"merge"';
                 if ($associationMapping['isCascadeRefresh']) $cascades[] = '"refresh"';
 
+                if (count($cascades) === 5) {
+                    $cascades = array('"all"');
+                }
+
                 $typeOptions[] = 'cascade={' . implode(',', $cascades) . '}';
             }
 
             if (isset($associationMapping['orphanRemoval']) && $associationMapping['orphanRemoval']) {
                 $typeOptions[] = 'orphanRemoval=' . ($associationMapping['orphanRemoval'] ? 'true' : 'false');
+            }
+
+            if (isset($associationMapping['fetch']) && $associationMapping['fetch'] !== ClassMetadataInfo::FETCH_LAZY) {
+                $fetchMap = array(
+                    ClassMetadataInfo::FETCH_EXTRA_LAZY => 'EXTRA_LAZY',
+                    ClassMetadataInfo::FETCH_EAGER      => 'EAGER',
+                );
+
+                $typeOptions[] = 'fetch="' . $fetchMap[$associationMapping['fetch']] . '"';
             }
 
             $lines[] = $this->spaces . ' * @' . $this->annotationsPrefix . '' . $type . '(' . implode(', ', $typeOptions) . ')';
@@ -1080,17 +1311,23 @@ public function __construct()
                 $lines[] = $this->spaces . ' * @' . $this->annotationsPrefix . 'JoinTable(' . implode(', ', $joinTable) . ',';
                 $lines[] = $this->spaces . ' *   joinColumns={';
 
+                $joinColumnsLines = array();
+
                 foreach ($associationMapping['joinTable']['joinColumns'] as $joinColumn) {
-                    $lines[] = $this->spaces . ' *     ' . $this->generateJoinColumnAnnotation($joinColumn);
+                    $joinColumnsLines[] = $this->spaces . ' *     ' . $this->generateJoinColumnAnnotation($joinColumn);
                 }
 
+                $lines[] = implode(",". PHP_EOL, $joinColumnsLines);
                 $lines[] = $this->spaces . ' *   },';
                 $lines[] = $this->spaces . ' *   inverseJoinColumns={';
 
+                $inverseJoinColumnsLines = array();
+
                 foreach ($associationMapping['joinTable']['inverseJoinColumns'] as $joinColumn) {
-                    $lines[] = $this->spaces . ' *     ' . $this->generateJoinColumnAnnotation($joinColumn);
+                    $inverseJoinColumnsLines[] = $this->spaces . ' *     ' . $this->generateJoinColumnAnnotation($joinColumn);
                 }
 
+                $lines[] = implode(",". PHP_EOL, $inverseJoinColumnsLines);
                 $lines[] = $this->spaces . ' *   }';
                 $lines[] = $this->spaces . ' * )';
             }
@@ -1112,11 +1349,17 @@ public function __construct()
         return implode("\n", $lines);
     }
 
-    private function generateFieldMappingPropertyDocBlock(array $fieldMapping, ClassMetadataInfo $metadata)
+    /**
+     * @param array             $fieldMapping
+     * @param ClassMetadataInfo $metadata
+     *
+     * @return string
+     */
+    protected function generateFieldMappingPropertyDocBlock(array $fieldMapping, ClassMetadataInfo $metadata)
     {
         $lines = array();
         $lines[] = $this->spaces . '/**';
-        $lines[] = $this->spaces . ' * @var ' . $this->getType($fieldMapping['type']) . ' $' . $fieldMapping['fieldName'];
+        $lines[] = $this->spaces . ' * @var ' . $this->getType($fieldMapping['type']);
 
         if ($this->generateAnnotations) {
             $lines[] = $this->spaces . ' *';
@@ -1192,74 +1435,70 @@ public function __construct()
         return implode("\n", $lines);
     }
 
-    private function prefixCodeWithSpaces($code, $num = 1)
+    /**
+     * @param string $code
+     * @param int    $num
+     *
+     * @return string
+     */
+    protected function prefixCodeWithSpaces($code, $num = 1)
     {
         $lines = explode("\n", $code);
 
         foreach ($lines as $key => $value) {
-            $lines[$key] = str_repeat($this->spaces, $num) . $lines[$key];
+            if ( ! empty($value)) {
+                $lines[$key] = str_repeat($this->spaces, $num) . $lines[$key];
+            }
         }
 
         return implode("\n", $lines);
     }
 
-    private function getInheritanceTypeString($type)
+    /**
+     * @param integer $type The inheritance type used by the class and its subclasses.
+     *
+     * @return string The literal string for the inheritance type.
+     *
+     * @throws \InvalidArgumentException When the inheritance type does not exists.
+     */
+    protected function getInheritanceTypeString($type)
     {
-        switch ($type) {
-            case ClassMetadataInfo::INHERITANCE_TYPE_NONE:
-                return 'NONE';
-
-            case ClassMetadataInfo::INHERITANCE_TYPE_JOINED:
-                return 'JOINED';
-
-            case ClassMetadataInfo::INHERITANCE_TYPE_SINGLE_TABLE:
-                return 'SINGLE_TABLE';
-
-            case ClassMetadataInfo::INHERITANCE_TYPE_TABLE_PER_CLASS:
-                return 'PER_CLASS';
-
-            default:
-                throw new \InvalidArgumentException('Invalid provided InheritanceType: ' . $type);
+        if ( ! isset(self::$inheritanceTypeMap[$type])) {
+            throw new \InvalidArgumentException(sprintf('Invalid provided InheritanceType: %s', $type));
         }
+
+        return self::$inheritanceTypeMap[$type];
     }
 
-    private function getChangeTrackingPolicyString($policy)
+    /**
+     * @param integer $type The policy used for change-tracking for the mapped class.
+     *
+     * @return string The literal string for the change-tracking type.
+     *
+     * @throws \InvalidArgumentException When the change-tracking type does not exists.
+     */
+    protected function getChangeTrackingPolicyString($type)
     {
-        switch ($policy) {
-            case ClassMetadataInfo::CHANGETRACKING_DEFERRED_IMPLICIT:
-                return 'DEFERRED_IMPLICIT';
-
-            case ClassMetadataInfo::CHANGETRACKING_DEFERRED_EXPLICIT:
-                return 'DEFERRED_EXPLICIT';
-
-            case ClassMetadataInfo::CHANGETRACKING_NOTIFY:
-                return 'NOTIFY';
-
-            default:
-                throw new \InvalidArgumentException('Invalid provided ChangeTrackingPolicy: ' . $policy);
+        if ( ! isset(self::$changeTrackingPolicyMap[$type])) {
+            throw new \InvalidArgumentException(sprintf('Invalid provided ChangeTrackingPolicy: %s', $type));
         }
+
+        return self::$changeTrackingPolicyMap[$type];
     }
 
-    private function getIdGeneratorTypeString($type)
+    /**
+     * @param integer $type The generator to use for the mapped class.
+     *
+     * @return string The literal string for the generator type.
+     *
+     * @throws \InvalidArgumentException    When the generator type does not exists.
+     */
+    protected function getIdGeneratorTypeString($type)
     {
-        switch ($type) {
-            case ClassMetadataInfo::GENERATOR_TYPE_AUTO:
-                return 'AUTO';
-
-            case ClassMetadataInfo::GENERATOR_TYPE_SEQUENCE:
-                return 'SEQUENCE';
-
-            case ClassMetadataInfo::GENERATOR_TYPE_TABLE:
-                return 'TABLE';
-
-            case ClassMetadataInfo::GENERATOR_TYPE_IDENTITY:
-                return 'IDENTITY';
-
-            case ClassMetadataInfo::GENERATOR_TYPE_NONE:
-                return 'NONE';
-
-            default:
-                throw new \InvalidArgumentException('Invalid provided IdGeneratorType: ' . $type);
+        if ( ! isset(self::$generatorStrategyMap[$type])) {
+            throw new \InvalidArgumentException(sprintf('Invalid provided IdGeneratorType: %s', $type));
         }
+
+        return self::$generatorStrategyMap[$type];
     }
 }
