@@ -4,7 +4,7 @@
     
     <appender name="fileAppender" class="LoggerAppenderRollingFile">
         <layout class="LoggerLayoutPattern">
-            <param name="conversionPattern" value="%date [%logger] %-5level %ses{userName} %message%newline%ex" />
+            <param name="conversionPattern" value="%date [%logger] %-5level %message%newline%ex" />
         </layout>
         <param name="file" value="log/file.log" />
         <param name="maxFileSize" value="10MB" />
