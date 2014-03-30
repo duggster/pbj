@@ -1,0 +1,19 @@
+<configuration xmlns="http://logging.apache.org/log4php/">
+    
+    <appender name="consoleAppender" class="LoggerAppenderConsole" />
+    
+    <appender name="fileAppender" class="LoggerAppenderRollingFile">
+        <layout class="LoggerLayoutPattern">
+            <param name="conversionPattern" value="%date [%logger] %-5level %ses{userName} %message%newline%ex" />
+        </layout>
+        <param name="file" value="log/file.log" />
+        <param name="maxFileSize" value="10MB" />
+        <param name="maxBackupIndex" value="10" />
+    </appender>
+    
+    <root>
+        <level value="DEBUG" />
+        <appender_ref ref="consoleAppender" />
+        <appender_ref ref="fileAppender" />
+    </root>
+</configuration>
