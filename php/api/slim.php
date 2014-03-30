@@ -12,6 +12,10 @@ require_once 'html2text.php';
 require_once 'email/Recipient.php';
 require_once 'email/BaseMessage.php';
 
+global $LOG_CONFIG;
+Logger::configure("../env/$LOG_CONFIG");
+$log = Logger::getLogger('slim');
+
 $slim = new \Slim\Slim(array(
     'mode' => 'development', //this is a custom string, can be anything
     'debug' => false, //this only controls the error() handler. If true, Slim's error page is displayed. If false, custom function is used.
@@ -24,6 +28,7 @@ $sessionManager = new SessionManager();
 $slim->add(new AuthMiddleware());
 
 $slim->error(function(\Exception $e) use ($slim) {
+  global $log;
   $slim->response()->status(500);
   $err = null;
   try {
@@ -37,9 +42,10 @@ $slim->error(function(\Exception $e) use ($slim) {
     
     //TODO create custom logger to file/email/db
     $slim->getLog()->error($err);
+    $log->error($err,$e);
     
   } catch(Exception $ex) {
-    echo $ex->__toString();
+    $log->error("Error encountered in slim error handler.", $ex);
   }
   $resp = $slim->response();
   $resp['Content-Type'] = 'application/json';

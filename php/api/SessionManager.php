@@ -33,6 +33,7 @@ class SessionManager {
       session_start();
       $userSession->id = session_id();
       $_SESSION["userSession"] = $userSession;
+      $_SESSION["userName"] = $userSession->user->name; //Used for logging
       session_write_close();
     }
     return $userSession;

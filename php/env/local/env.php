@@ -6,6 +6,9 @@ ini_set('display_errors', (($ISDEBUG)?'on':'off'));
 error_reporting(E_ALL);
 date_default_timezone_set("America/New_York");
 
+global $env;
+$LOG_CONFIG = "$env/log4php.xml";
+
 $PBJ_PROTOCOL = 'http';
 $PBJ_URL = "$PBJ_PROTOCOL://pbj-local";
 

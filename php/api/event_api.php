@@ -167,13 +167,16 @@ $slim->post('/events/:eventid/broadcast', function($eventid) {
 })->name('POST-EventBroadcast');
 
 $slim->post('/mailgun/debug', function() {
-  global $slim, $MAILGUN_OFFLINE_DIR;
+  global $slim, $MAILGUN_OFFLINE_DIR, $log;
   $headers = $slim->request()->headers();
   $headers = http_build_query($headers);
   $body = $slim->request()->getBody();
   $model = readMailgunBody($slim->request());
   $model_str = var_export($model, true);
   $timestamp = "" . time() . rand(1000,9999);
+  $log->debug("Headers: $headers");
+  $log->debug("Body: $body");
+  $log->debug("Model: $model_str");
   $filecontents = "$headers********$body@@@@@@@@@$model_str";
   file_put_contents("$MAILGUN_OFFLINE_DIR/email-$timestamp.html", $filecontents);
 });
