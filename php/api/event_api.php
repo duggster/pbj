@@ -167,11 +167,16 @@ $slim->post('/events/:eventid/broadcast', function($eventid) {
 })->name('POST-EventBroadcast');
 
 $slim->post('/mailgun/debug', function() {
-  global $slim, $MAILGUN_OFFLINE_DIR, $log;
-  $headers = $slim->request()->headers();
+  global $slim;
+  debugMailgunRequest($slim->request());
+});
+
+function debugMailgunRequest($request) {
+  global $MAILGUN_OFFLINE_DIR, $log;
+  $headers = $request->headers();
   $headers = http_build_query($headers);
-  $body = $slim->request()->getBody();
-  $model = readMailgunBody($slim->request());
+  $body = $request->getBody();
+  $model = readMailgunBody($request);
   $model_str = var_export($model, true);
   $timestamp = "" . time() . rand(1000,9999);
   $log->debug("Headers: $headers");
@@ -179,7 +184,7 @@ $slim->post('/mailgun/debug', function() {
   $log->debug("Model: $model_str");
   $filecontents = "$headers********$body@@@@@@@@@$model_str";
   file_put_contents("$MAILGUN_OFFLINE_DIR/email-$timestamp.html", $filecontents);
-});
+}
 
 function readMailgunBody($request) {
   $body = $request->getBody();
@@ -196,7 +201,7 @@ $slim->post('/mailgun/events', function() {
   //TODO: Verify that request came from Mailgun. See "Securing Webhooks" in documentation
   //TODO: How to verify email is not being spoofed, especially if this can modify an event, post spam messages, add guests, etc.
   
-  global $slim;
+  global $slim, $log;
   $event = null;
   $model = readMailgunBody($slim->request());
   $em = \getEntityManager();
