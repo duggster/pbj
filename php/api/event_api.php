@@ -380,10 +380,9 @@ $slim->post('/mailgun/events/:eventid', function($eventid) {
   //TODO: How to verify email is not being spoofed, especially if this can modify an event, post spam messages, add guests, etc.
   
   global $slim;
-  $body = $slim->request()->getBody();
-  $mailgun = model\Mailgun::createFromJSON($body, true);
+  $model = readMailgunBody($slim->request());
   
-  $responseCode = _processIncomingEventEmail($mailgun, $eventid);
+  $responseCode = _processIncomingEventEmail($model, $eventid);
 });
 
 function _processIncomingEventEmail($mailgun, $eventid) {
