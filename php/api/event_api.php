@@ -3,6 +3,14 @@ use pbj\model\v1_0 as model;
 
 //\Doctrine\Common\Util\Debug::dump($entity);
 
+function getLog() {
+  $log = Logger::getLogger('event_api');
+  global $sessionManager;
+  $userId = $sessionManager->getUserId();
+  LoggerMDC::put("userid",$userId);
+  return $log;
+}
+
 function getEventPage($eventid) {
   global $PBJ_URL;
   return "$PBJ_URL/web/pbj.php#/event/$eventid";
@@ -172,13 +180,15 @@ $slim->post('/mailgun/debug', function() {
 });
 
 function debugMailgunRequest($request) {
-  global $MAILGUN_OFFLINE_DIR, $log;
+  global $MAILGUN_OFFLINE_DIR;
   $headers = $request->headers();
   $headers = http_build_query($headers);
   $body = $request->getBody();
   $model = readMailgunBody($request);
   $model_str = var_export($model, true);
   $timestamp = "" . time() . rand(1000,9999);
+  $log = getLog();
+  LoggerMDC::put("userid",$model->From);
   $log->debug("Headers: $headers");
   $log->debug("Body: $body");
   $log->debug("Model: $model_str");
@@ -201,11 +211,15 @@ $slim->post('/mailgun/events', function() {
   //TODO: Verify that request came from Mailgun. See "Securing Webhooks" in documentation
   //TODO: How to verify email is not being spoofed, especially if this can modify an event, post spam messages, add guests, etc.
   
-  global $slim, $log;
+  global $slim;
   $event = null;
   $model = readMailgunBody($slim->request());
+  $log = getLog();
+  LoggerMDC::put("userid", $model->From);
+  $log->debug($slim->request()->getBody());
+  
   $em = \getEntityManager();
-  $em->transactional(function($em) use ($model, $event) {
+  $em->transactional(function($em) use ($model, $event, $log) {
 
     //Lookup subject line and sender/recipients to see if existing event 
     //has already been created.
@@ -218,7 +232,9 @@ $slim->post('/mailgun/events', function() {
       $addresses = array();
       foreach($recipients as $recipient) {
         $obj = parseEmailAddress($recipient);
-        $addresses[] = $obj->email;
+        if (!empty($obj->email)) {
+          $addresses[] = $obj->email;
+        }
       }
       $totaladdresses = count($addresses);
       foreach($emails as $email) {
@@ -240,10 +256,11 @@ $slim->post('/mailgun/events', function() {
     }
     
     if ($eventFound) {
+      $log->info("Event found: [$eventid] $subject");
       _processIncomingEventEmail($model, $eventid);
     }
     else {
-
+      $log->info("Event not found: $subject");
       $model->Subject = $subject;
       
       //Create event
