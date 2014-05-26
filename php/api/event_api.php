@@ -225,6 +225,7 @@ $slim->post('/mailgun/events', function() {
     //has already been created.
     $eventFound = false;
     $subject = parseSubjectLine($model->Subject);
+    $log->info("Initiating email post with subject: $subject");
     $emails = $em->createQuery("SELECT em FROM entity\EventEmail em WHERE em.subject = '$subject' ORDER BY em.timestamp DESC")->getResult();
     if ($emails != null) {
       $recipients = $model->From . ', ' . $model->To . ', ' . $model->Cc;
@@ -302,6 +303,7 @@ $slim->post('/mailgun/events', function() {
       }
       $em->flush();
       $em->refresh($event); //refresh to pull in the new guests relationships
+      $log->info("New event created: [". $event->getId() . "]" . $event->getTitle());
       
       createMailgunRoute($event);
       $email = saveEmail($model, $event->getId());
@@ -1306,6 +1308,7 @@ class OutgoingEventMessage {
 function _sendEventMessage($event, $contentName, $vars = null, $subject = "", $addRecipients = null, $fromGuest = null, $postToEvent = true, $sendEmail = true) {
   $eventMessage = null;
   $em = \getEntityManager();
+  $log = getLog();
   if ($event != null) {
     //Prefer to continue an existing email thread if one exists
     if ($subject == "") {
@@ -1318,6 +1321,8 @@ function _sendEventMessage($event, $contentName, $vars = null, $subject = "", $a
       $email->setSubject($subject);
       $email->setBody('');
       $email->setStrippedBody('');
+    }
+    else {
     }
     
     //Adjust subject to remove any Re: string if it exists

@@ -1,6 +1,6 @@
 <?php
 $ISDEBUG = true;
-$ISDEBUGOFFLINE = true;
+$ISDEBUGOFFLINE = false;
 
 ini_set('display_errors', (($ISDEBUG)?'on':'off'));
 error_reporting(E_ALL);
