@@ -17,6 +17,9 @@ function createNewUserSession($googleId) {
   if (sizeof($u) > 0) {
     $u = $u[0];
   }
+  else {
+    $u = createNewUser($googleId);
+  }
   $userSession->googleId = $googleId;
   $userSession->user = mapping\User::fromEntity($u);
   return $userSession;
@@ -101,6 +104,29 @@ $slim->get('/users', function() {
   echo json_encode($users);
 
 })->name('GET-Users');
+
+function createNewUser($googleId) {
+  $em = \getEntityManager();
+  $em->transactional(function($em) use ($googleId) {
+    $user = new \entity\User();
+    $user->setGoogleId($googleId);
+    $user->setIsActive(1);
+    /*
+    $cp = new \entity\CommunicationPreference();
+    $cp->setUser($user);
+    $cp->setPreferenceType("email");
+    $cp->setHandle($handle);
+    $cp->setIsActive(1);
+    $cp->setIsPrimary(1);
+    
+    $cps = Array();
+    $cps[] = $cp;
+    $user->setCommunicationPreferences($cps);
+    */
+    $em->persist($user);
+    $em->flush();
+  });
+}
 
 $slim->put('/users/:userid', function($userid) {
   global $sessionManager;
