@@ -26,6 +26,7 @@ class AuthMiddleware extends \Slim\Middleware
           echo 'Your session is not valid.';
         }
         else {
+          $slim->response->header('Access-Control-Allow-Origin', '*');
           // Run inner middleware and application
           $this->next->call();
         }
