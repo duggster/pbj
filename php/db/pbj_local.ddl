@@ -43,7 +43,7 @@ CREATE TABLE `event` (
   `event_where` varchar(250) DEFAULT NULL,
   `is_show_info` tinyint(4) DEFAULT NULL,
   PRIMARY KEY (`event_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=176 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=202 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `event_email`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -61,7 +61,7 @@ CREATE TABLE `event_email` (
   PRIMARY KEY (`event_email_id`),
   KEY `event_email_ibfk_1` (`event_id`),
   CONSTRAINT `event_email_ibfk_1` FOREIGN KEY (`event_id`) REFERENCES `event` (`event_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=43 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `event_message`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
@@ -103,7 +103,7 @@ CREATE TABLE `guest` (
   PRIMARY KEY (`guest_id`),
   KEY `fk_guest_user` (`user_id`),
   KEY `event_id` (`event_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=832 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=858 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 DROP TABLE IF EXISTS `guest_link`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
